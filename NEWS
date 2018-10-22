@@ -1,0 +1,259 @@
+# Release changes
+
+lterm 1.5.1 (22 12 2017)
+---------------------------------
+
+New features:
+  - Import bookmarks from MobaXterm and Putty
+  - Export bookmarks to MobaXterm, Putty, CSV file
+  - Home button on SFTP panel
+  - Copy file paths to clipboard
+
+Bug fixes:
+  - Can freeze with timed out sessions
+
+lterm 1.5.0 (12 Aug 2017)
+---------------------------------
+
+New features:
+  - Remote files editing works with any local editor, even editors without sftp capability (e.g. Sublime).
+  - Popup message when uploads and downloads are completed.
+  - More SSH options
+
+Changes:
+  - Mac OS X: TextEdit is now the default text editor.
+  - Uploads and downloads work in background and don't block the program any more.
+  - Internal changes
+
+Bug fixes:
+  - Local shells didn't open if using zsh
+  - Mac OS X: remote file opening didn't work properly
+  - Tab changes alert didn't work properly
+  - Program could crash sometimes while saving current session
+
+lterm 1.4.1 (13 Nov 2016)
+---------------------------------
+
+New features:
+  - Can change last modification and access time of remote files.
+
+Changes:
+  - Ctrl+R cycles through reverse i search instead of detacthing tab.
+
+Bug fixes:
+  - In "Edit connection" window couldn't edit port entry by keyboard.
+  - Connection->Log off didn't work anymore with recent libvte versions.
+  - Can crash sometimes with very long lines.
+  - Unstable under some circumstances.
+
+lterm 1.4.0 (23 Jul 2016)
+---------------------------------
+
+New features:
+  - Split view to see more terminals on the screen.
+  - Send commands to a cluster of terminals.
+  - Select an identity file for each connection when authenticating by key.
+  - Make a copy of remote files by SFTP popup menu.
+  - X11 forwarding option in ssh connections.
+
+Changes:
+  - Increased sftp buffer limit.
+  - Can specify port when opening a remote file with local text editor.
+  - Removed custom emulation. Always "xterm" is used.
+  - Can stop long SFTP operations.
+  - Linux: compatible with vte-0.91
+  - Recent connections file is now in xml format
+  - Some minor changes.
+
+Bug fixes:
+  - Terminal background color control was not initialized when creating a new profile.
+  - Local files were not closed after being downloaded.
+
+lterm 1.3.2 (26 Aug 2015)
+---------------------------------
+
+Bug fixes:
+  - Copy/Paste from terminal popup menu didn't work any more.
+  
+lterm 1.3.1 (24 Aug 2015)
+---------------------------------
+
+Changes:
+  - Better copy when selection includes an hypertext.
+  - More compatibility with older versions of libssh.
+  
+Bug fixes:
+  - Linux: Crash at startup when running on newer system versions.
+  - Mac: Crash when choosing uploading file from recent files.
+  - Mac: Paste text into terminal instead of the active entry field.
+  - Asking a not needed password when logged by key.
+
+lterm 1.3.0 (09 Nov 2014)
+---------------------------------
+
+New features:
+  - Authentication by key.
+  - Hypertextual IP addresses.
+  - Different icons for different file types in the SFTP panel.
+  - Added "cd to current directory" in SFTP popup menu.
+  
+Bug fixes:
+  - Fixed annoying cursor behaviour in filter entry.
+  - Fixed possible cause of crash when closing tabs.
+  
+lterm 1.2.1 (13 Sep 2014)
+---------------------------------
+
+New features:
+  - Store last directory used for upload and download.
+  
+Bug fixes:
+  - Possible crash with very long lines in the terminal. 
+  
+lterm 1.2.0 (7 Aug 2014)
+---------------------------------
+
+New features:
+  - Directory history in the SFTP panel.
+  - More items in the SFTP popup menu.
+  
+Bug fixes:
+  - Authentication with right user and password may fail on some server, now fixed.
+  - Removed annoying focus grabbing of filter entry in the sidebar.
+
+lterm 1.1.0 (18 May 2014)
+---------------------------------
+
+New features: 
+  - Can disable sftp functions if needed.
+  - Can compile in debug mode by executing ./configure --enable-debug
+
+Bug fixes:
+  - User can now write into authentication entries in "Advanced" tab.
+  - Inform user when no authentication method is returned by server
+  
+lterm 1.0.0 (10 May 2014)
+---------------------------------
+
+New features: 
+  - SFTP file transer.
+  - Remote text files editing.
+  - Remote files and directories management.
+  - Find text in the terminal.
+  - Color/style profile management.
+  - Log file
+
+lterm 0.4.0 (25 Apr 2013)
+---------------------------------
+
+New features: 
+  - lterm can now be compiled on Mac OS X.
+  - Connections with fatal errors are painted red.
+
+Changes: 
+  - "Log on" dialog window perfectly centered.
+  - Some functions rewritten better.
+
+Bug fixes:
+  - File descriptors were left open when checking connections
+    and the maximum number of open files could be reached.
+
+lterm 0.3.1 (16 Jul 2012)
+---------------------------------
+
+New features: 
+  - Search entry field in the toolbar.
+  - Ability to organize connections into folders.
+  - Post-it for adding notes to connections.
+  - Ability to duplicate connections in one click.
+
+Changes: 
+  - User connections are saved in xml format.
+
+Bug fixes: 
+  - Recent connections menu now works fine.
+
+lterm 0.3.0 (10 Jun 2012)
+---------------------------------
+
+Changes: 
+  - Runs with GTK+ 2.0 and GTK+ 3.0 (can choose if both installed)
+  - Better managing of login steps
+
+Bug fixes: 
+  - In enabling/disabling connection authentication parameters
+  - In loading/saving session
+  - Removed annoying window resizing under KDE and XFCE
+
+lterm 0.2.9 (26 May 2012)
+---------------------------------
+
+New features:
+  - Paste host from popup menu by right click
+  - Copy host to clipboard from quick launch window
+
+Bug fixes: 
+  - Some little adjustments
+
+lterm 0.2.8 (26 February 2012)
+---------------------------------
+
+- Some bugs fixed
+
+lterm 0.2.7 (12 August 2011)
+---------------------------------
+
+- New feature: Session recovery and saving
+- New feature: Recent used connections
+- New feature: Duplication for local shell
+- New feature: Gray color for tabs on disconnection
+- Bug fix: when changing port value
+- Bug fix: on disconnection and subsequent tab closing
+
+lterm 0.2.6 (11 July 2011)
+---------------------------------
+
+- New feature: connection duplication
+- New feature: connections list import and export
+- New feature: some more options for protocols
+- New feature: desktop menu shortcut
+
+lterm 0.2.5 (3 April 2011)
+---------------------------------
+
+- New feature: protocol editing
+- Bug fix: important bugs fixed
+
+lterm 0.2.4 (12 March 2011)
+---------------------------------
+
+- Quick lauch window
+- Searching can be done by host.
+- Connection warnings
+- Start directory for terminal on local host
+
+lterm 0.2.3 (31 October 2010)
+---------------------------------
+
+- Activity alerts on tab labels
+- Fixed some bugs in setting preferences
+
+lterm 0.2.2 (24 October 2010)
+---------------------------------
+
+- User and password saving for instant authentication when loggin on
+- Needs libssl-dev for password DES encrypting
+- Improved configuration for Samba connections
+
+lterm 0.2.1 (17 October 2010)
+---------------------------------
+
+- User can change mouse behaviour (for example to get PuTTY-like copy/paste)
+- "Copy and paste" menu item (as in SecureCRT)
+
+lterm 0.2.0 (10 October 2010)
+---------------------------------
+
+- Introduced tabs to manage more terminals
+- Bug fix: when saving last user
+

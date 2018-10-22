@@ -1,0 +1,15 @@
+Copyright (C) 2009-2015 Fabio Leone
+
+This is free software, released under
+the terms of GNU General Public License
+
+<b>Program by</b>
+Fabio Leone
+
+<b>Thanks to</b>
+Francesco Gabriele, Teresa Sirianni, Giorgio Galeotti,
+Carlo Troiano, Maurizio Giungato, Michelangelo Molinaro
+
+<b>Icon created by</b>
+Patrizio Spanò
+

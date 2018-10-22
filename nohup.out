@@ -1,0 +1,124 @@
+- Adding Compiz/beryl compatibility mode.
+01.02.2014 14:38:44 Mercury/1.9.5 [20090722]
+01.02.2014 14:38:44 Resource Type > General
+01.02.2014 14:38:44 Locations > Loading...
+01.02.2014 14:38:44 Locations > Loaded OK.
+01.02.2014 14:38:44 Main > Loading Global Settings...
+01.02.2014 14:38:45 Main > Loading Splash Screen...
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Self Contact
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Default Contact
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Default Contact With Bullet
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Default Contact With Star
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Group
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Changeable color
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Status color
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Glass
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Blue Purple
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Blue Green
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Teal Purple
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Yellow Red
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Changeable color
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Status color
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Glass
+01.02.2014 14:38:47 J1.5+ : false&&false -> 1.7.0_51
+01.02.2014 14:38:47 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob
+OpenJDK 64-Bit Server VM warning: You have loaded library /usr/share/mercury/jni/jmf/libjmv4l.so which might have disabled stack guard. The VM will try to fix the stack guard now.
+It's highly recommended that you fix the library with 'execstack -c <libfile>', or link it with '-z noexecstack'.
+- Adding Compiz/beryl compatibility mode.
+15.03.2014 15:20:29 Mercury/1.9.5 [20090722]
+15.03.2014 15:20:29 Resource Type > General
+15.03.2014 15:20:29 Locations > Loading...
+15.03.2014 15:20:29 Locations > Loaded OK.
+15.03.2014 15:20:29 Main > Loading Global Settings...
+15.03.2014 15:20:29 Main > Loading Splash Screen...
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Self Contact
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Default Contact
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Default Contact With Bullet
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Default Contact With Star
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Group
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Changeable color
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Status color
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Glass
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Blue Purple
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Blue Green
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Teal Purple
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Yellow Red
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Changeable color
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Status color
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Glass
+15.03.2014 15:20:31 J1.5+ : false&&false -> 1.7.0_51
+15.03.2014 15:20:31 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob
+OpenJDK 64-Bit Server VM warning: You have loaded library /usr/share/mercury/jni/jmf/libjmv4l.so which might have disabled stack guard. The VM will try to fix the stack guard now.
+It's highly recommended that you fix the library with 'execstack -c <libfile>', or link it with '-z noexecstack'.
+15.03.2014 15:21:19 chatPanel = <ChatPanel:federico_486@hotmail.com>
+- Adding Compiz/beryl compatibility mode.
+23.04.2014 20:20:00 Mercury/1.9.5 [20090722]
+23.04.2014 20:20:00 Resource Type > General
+23.04.2014 20:20:00 Locations > Loading...
+23.04.2014 20:20:00 Locations > Loaded OK.
+23.04.2014 20:20:00 Main > Loading Global Settings...
+23.04.2014 20:20:00 Main > Loading Splash Screen...
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Self Contact
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Default Contact
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Default Contact With Bullet
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Default Contact With Star
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsSteam.zip Steam Group
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Changeable color
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Status color
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Glass
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Blue Purple
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Blue Green
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Teal Purple
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Self, Yellow Red
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Changeable color
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Status color
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob - Glass
+23.04.2014 20:20:01 J1.5+ : false&&false -> 1.7.0_51
+23.04.2014 20:20:01 Views > Requirement not OK : 'Java1.5+' for ./resources/AppData/Views/RobsDroneV3.zip DRON3 by Rob
+OpenJDK 64-Bit Server VM warning: You have loaded library /usr/share/mercury/jni/jmf/libjmv4l.so which might have disabled stack guard. The VM will try to fix the stack guard now.
+It's highly recommended that you fix the library with 'execstack -c <libfile>', or link it with '-z noexecstack'.

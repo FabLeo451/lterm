@@ -1,0 +1,23 @@
+<?xml version = '1.0'?>
+<main>
+  <sidebar>
+    <menu label='To terminal' action='paste'>
+      <menuitem label='cd to current directory' enter='1'>cd "@{d}"</menuitem>
+      <menuitem label='Filename'>"@{f}" </menuitem>
+      <menuitem label='Filename with absolute path'>"@{d}/@{f}" </menuitem>
+      <menuitem label='Current directory' multiple='0'>"@{d}" </menuitem>
+    </menu>
+    <menu label='Actions' action='execute'>
+      <menuitem label='head -30' output='1'>head -30 "@{d}/@{f}"</menuitem>
+      <menuitem label='tail -30' output='1'>tail -30 "@{d}/@{f}"</menuitem>
+      <menuitem label='Compress (gzip)' refresh='1'>gzip -f "@{d}/@{f}"</menuitem>
+      <menuitem label='Uncompress (gunzip)' refresh='1'>gunzip -f "@{d}/@{f}"</menuitem>
+      <menuitem label='Make a copy' refresh='1'>cp -pR "@{d}/@{f}" "@{d}/@{f}.`date +"%Y%m%d.%H%M%S"`"</menuitem>
+    </menu>
+    <menu label='System' action='execute'>
+      <menuitem label='Bash processes' output='1' multiple='0'>ps -ef | grep -E "bash|ksh" | grep -v grep</menuitem>
+      <menuitem label='Environment' output='1' multiple='0'>env</menuitem>
+      <menuitem label='Disk usage' output='1' multiple='0'>df -h</menuitem>
+    </menu>
+  </sidebar>
+</main>

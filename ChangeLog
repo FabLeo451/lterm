@@ -1,0 +1,1667 @@
+
+2017-12-23 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.5.1 Release
+  
+2017-12-04 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (sftp_panel_create_file): added
+
+  * connection.c
+    (connection_export_CSV): added
+
+2017-11-22 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (query_value): wide window for QUERY_RENAME
+
+2017-11-14 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (sftp_panel_create_mirror_file): don't use pMirror.lastSaved = time(NULL); use pMirror.lastSaved = attrib.st_mtime;
+
+2017-11-13 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (sftp_panel_copy_path_clipboard): added
+
+2017-10-31 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (sftp_copy_file_download): unlock ssh mutex after sftp_open, relock sftp_attributes_free (returning without unlocking causes deadlock)
+    (upload_directory): unlock before returning
+
+2017-10-29 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c
+    (ssh_node_free): don't lock SSH mutex any more, it's already locked so causes deadlock.
+    (lt_ssh_disconnect): lock SSH mutex
+
+2017-08-12 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.5.0 Release
+
+2017-08-07 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    (lterm_iteration): added case ITERATION_CLOSE_TAB
+    (notifyMessage): MacOSX: use osascript
+ 
+  * sftp-panel.c
+    (child_exited_cb): enqueue tab closing instead of calling connection_tab_close(). Freezes program if called in child_exited_cb().
+
+2017-08-03 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (sftp_queue_add): set pTi->filename using g_path_get_basename()
+
+2017-07-27 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (sftp_set_status_mode): added, refreshes gui immediately or differited
+    (sftp_clear_status): call sftp_set_status_mode() in idle mode
+
+2017-06-30 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (key_press_event_cb): calling vte_terminal_reset() set third parameter (clear_history) to FALSE. 
+                          Setting to true causes wrong row position when relogging by enter key.
+
+2017-06-30 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c
+    (sftp_refresh_directory_list): don't return immediatelly on errors (causes deadlock), set retCode an return at the end
+
+  * gui.c
+    (refreshTabStatus): added, replaces connection_tab_set_status()
+
+2017-06-23 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (tabInitConnection): added
+
+2017-06-13 Fabio Leone <fab.leo@gmail.com>
+
+  * async.c
+    (lockSSH): added
+
+  * sftp-panel.c
+    (sftp_copy_file_download): call lockSSH() to lock/unlock ssh
+    (sftp_copy_file_upload): call lockSSH() to lock/unlock ssh
+    (upload_directory): call lockSSH() to lock/unlock ssh
+    (download_directory): call lockSSH() to lock/unlock ssh
+    (sftp_panel_create_folder): call lockSSH() to lock/unlock ssh
+    (sftp_panel_rename): call lockSSH() to lock/unlock ssh
+    (sftp_panel_delete): call lockSSH() to lock/unlock ssh
+    (sftp_panel_change_time): call lockSSH() to lock/unlock ssh
+
+  * ssh.c
+    (sftp_refresh_directory_list): call lockSSH() to lock/unlock ssh
+    (ssh_node_connect): DON'T call lockSSH(). Avoid nested locking
+    (ssh_node_free): call lockSSH() to lock/unlock ssh
+    (ssh_node_open_channel): call lockSSH() to lock/unlock ssh
+    (lt_ssh_connect): call lockSSH() to lock/unlock ssh
+    (lt_ssh_getenv): DON'T call lockSSH(). Avoid nested locking
+    (lt_ssh_exec): call lockSSH() to lock/unlock ssh
+
+2017-03-29 Fabio Leone <fab.leo@gmail.com>
+
+  * async.c
+    (async_sftp_transfer): call gdk_threads_add_idle (update_statusbar_upload_download, NULL);
+
+  * configure.ac
+    Added -lX11 in LIBS="$LIBS -lssh_threads -lX11" for XInitThreads()
+    LIBS="$LIBS -L/opt/X11/lib" if compiling under MacOSX
+
+  * main.c
+    (main): call XInitThreads ();
+
+2017-03-19 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    (main): call ssh_threads_set_callbacks(ssh_threads_get_pthread());
+
+2017-03-11 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (sftp_set_status): gtk_main_iteration () commented out (... and in many other places)
+
+2017-03-05 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (contents_changed_cb): use MD5 digest to detect changes
+
+2017-02-22 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (save_recent_connections): save_connections_to_file_xml_from_list() replaced with save_connections_to_file_xml_from_glist().
+
+  * terminal.c
+    (save_session_file): save_connections_to_file_xml_from_list() replaced with save_connections_to_file_xml_from_glist().
+
+2017-02-18 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp_panel.h
+    In struct TransferInfo size and worked changed from int to uint64_t, needed by big files.
+
+  * gui.c
+    (transfer_window_refresh): added
+    (view_transfer_window): added
+
+2017-02-15 Fabio Leone <fab.leo@gmail.com>
+
+  * connection_list.c
+    Use GPtrArray *directories instead of struct Bookmarks history
+    (count_directories): added
+    (search_directory): added
+    (add_directory): added
+
+2017-02-13 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    (main): init multithread
+
+  * async.c
+    (async_lterm_loop): added
+
+2017-02-11 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c
+    (ssh_node_connect): node was always valuated as not valid, commented out "if (valid) { ... }"
+
+  * sftp-panel.c
+    (sftp_panel_check_inotify): added
+    (sftp_panel_create_mirror_file): added
+
+2017-01-14 Fabio Leone <fab.leo@gmail.com>
+
+  * terminal.c
+    (terminal_new): Added. Exclude G_SPAWN_FILE_AND_ARGV_ZERO from spawn flags (problema with zsh terminal)
+
+  * gui.c
+    (connection_new_terminal_dir): call terminal_new()
+
+  * connection_list.c
+    (connection_copy): use mempcy() instead of copying every field.
+
+  * connection.c
+    (change_protocol_cb): use gtk_widget_set_sensitive() instead of gtk_widget_set_state_flags()
+    Added option node:
+    <options>
+      <property name='x11Forwarding'>0</property>
+      <property name='disableStrictKeyChecking'>0</property>
+    </options>
+
+2016-11-13 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.4.1 Release
+
+2016-10-28 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (write_connection_node): check strlen (b->item) > 0 when writing history 
+  
+2016-10-08 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (contents_changed_cb): connection_log_off () commented out
+    
+2016-10-08 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (segv_handler): added
+    (contents_changed_cb): Use splitString() to get buffer lines
+
+  * utils.c
+    (splitString): i, k and t declared as int instead of char. Addedd a k++ in the last if to jump delimiter.
+
+2016-10-01 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (connection_log_off): send SIGTERM to p_current_connection_tab->pid and disconnect sftp panel
+
+2016-09-28 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (GtkActionEntry main_menu_items[]): Detach to the right shortcut: Ctrl+P instead of Ctrl+R
+    
+    connection.c
+    (write_connection_node): more checks on values
+    
+2016-09-03 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (query_value): expand = TRUE when packing text_vbox in the horizontal box main_hbox
+
+2016-08-24 Fabio Leone <fab.leo@gmail.com>
+
+  * edit-connection.glade
+    [glade]: Set "Focus utilizabile" e "Focus disponibile"
+
+2016-08-09 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp_panel.c
+    (sftp_panel_change_time): added
+
+2016-07-30 Fabio Leone <fab.leo@gmail.com>
+
+  * terminal.c
+    (terminal_connect_ssh): check p_auth->user[0] and p_auth->password[0] on strcpy()
+
+  * gui.c
+    (clean_recents): added g_recent_connections_list = 0;
+    (add_recent_connection): use item->data with g_list_remove()
+
+  * connection.c
+    (write_connection_node): use NVL()
+
+2016-07-28 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (read_connection_node): Reading history: check if item not null before adding to bookmarks
+  
+2016-07-23 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.4.0 Release
+
+2016-07-18 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (show_sidebar): run sftp_end() when showing
+    (terminal_cluster): use "local shell" for local tabs
+    
+2016-07-18 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (terminal_cluster): use var "nAdded" for array, not "i" (disconnected tabs cause segmantation fault).
+    (get_recent_connection_item): added
+    (get_recent_connection): use get_recent_connection_item()
+    (add_recent_connection): use get_recent_connection_item() instead of use get_recent_connection()
+    
+2016-07-16 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (child_exited_cb): different parameters if vte version >= 0.38.2
+    (connection_tab_add): Use gtk_image_new_from_stock (GTK_STOCK_NETWORK, ...) id GTK < 3.6.5 (Mac OS X has 3.6.4)
+    (terminal_cluster): skip disconnected tabs
+
+  * sftp-panel.c
+    (ssh_additionals_cb): use @{f} and @{d} instead of %f and %d
+
+2016-07-12 Fabio Leone <fab.leo@gmail.com>
+
+  * terminal.c
+    (load_session_file): use load_connection_list_from_file_xml()
+    (save_session_file): use save_connections_to_file_xml_from_list()
+    
+2016-07-11 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (write_connection_node): write <user>...</user> and <password>...</password>
+    (read_connection_node): read <user>...</user> and <password>...</password>
+
+  * gui.c
+    (add_recent_connection): If connection already present, overwrite it
+
+  * main.c
+    (load_settings): max_recent_connections = max_recent_sessions = 10
+
+2016-07-10 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    (main): recent filename changed: recents.xml
+
+  * connection.c
+    (write_connection_node): added
+    (save_connections_to_file_xml_from_list): added
+    (read_connection_node): added
+    (load_connection_list_from_file_xml): added
+
+2016-07-09 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (sftp_begin): added
+    (sftp_end): added
+    (sftp_stoped_by_user): added
+    (refresh_sftp_list_store): use sftp_begin()/sftp_end()/sftp_stoped_by_user()
+    (sftp_panel_rename): don't refresh if no file has been renamed
+
+  * ssh.c
+    (sftp_refresh_directory_list): use sftp_begin()/sftp_end()/sftp_stoped_by_user()
+
+2016-07-07 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (connection_tab_close): Use vte_pty_close to close the file descriptor
+  
+2016-07-06 Fabio Leone <fab.leo@gmail.com>
+
+  * various files: emulation not used anymore. Always "xterm"
+
+  * gui.c
+    (terminal_attach_to_main): set reordable again with gtk_notebook_set_tab_reorderable()
+    VTE_CHECK_VERSION(0,40,0) modified to VTE_CHECK_VERSION(0,38,3)
+  
+2016-07-05 Fabio Leone <fab.leo@gmail.com>
+
+  * preferences.c
+    (profile_edit): put bg in gdk_rgba_parse (&bg, "black"); (before it was fg twice)
+
+  * gui.c
+    (connection_tab_new): "status-line-changed" signal removed
+    (query_tooltip_cb): don't use "inner-border"
+    (button_press_event_cb): don't use "inner-border"
+  
+2016-07-04 Fabio Leone <fab.leo@gmail.com>
+
+  * terminal.c
+    (terminal_set_encoding): added
+    (terminal_set_search_expr): Use G_REGEX_MATCH_ANCHORED for vte >= 0.40
+    (terminal_set_font_from_string): added
+
+  * gui.c
+    Every vte_terminal_set_encoding() replaced with terminal_set_encoding()
+
+  * connection_list.h
+    (struct Connection): short int x11Forwarding; changed in int x11Forwarding;
+
+2016-07-02 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (add_update_connection): changed toggles order signals
+    (change_protocol_cb): If protocol has been changed from ssh to other, and the key authentication is selected then change to prompted authentication
+
+  * gui.c
+    (expand_args): added prefix parameter
+
+  * utils.c
+    (splitString): added
+
+  * terminal.c
+    (log_on): use splitString() to split expanded arguments string.
+              Set auth.identityFile.
+
+  * ssh.c
+    (ssh_node_connect): use SSH_OPTIONS_IDENTITY if identity file is specified
+
+2016-06-29 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    (load_settings): default sftp_buffer = 128K
+
+  * preferences.c
+    (profile_edit): Enable/disable font button on "Use system font" toggle state
+
+  * sftp-panel.c
+    (sftp_copy_file_download): added close(fd);
+
+2016-06-27 Fabio Leone <fab.leo@gmail.com>
+
+  * protocol.h/protocol.c
+    Added type in struct Protocol.
+    (pl_append): set protocol type.
+
+  * gui.c
+    (connection_tab_getcwd): use p_ct->type == PROT_TYPE_SSH
+
+  * connection_list.h
+    Added:
+      unsigned short x11forwarding;
+      char identityFile[1024];
+
+2016-06-26 Fabio Leone <fab.leo@gmail.com>
+
+  * terminal.c
+    (terminal_write_child_ex): added
+    (terminal_write_child): use terminal_write_child_ex()
+
+  * gui.c
+    (terminal_cluster): added
+
+  * connection.c
+    (add_update_connection): call refresh_search_completion() if a new host has been added.
+
+  * sftp-panel.c
+    (sftp_panel_open): replace %p with the port and %P with the password.
+
+2016-06-23 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (child_exited_cb): sftp disconnection and tab update moved into p_ct->type == CONNECTION_REMOTE case.
+    (connection_tab_close): use p_ct->notebook instead of notebook.
+                            Attach tab to main notebook before removing it.
+    (terminal_focus_cb): added
+    (terminal_detach_right): added
+    (terminal_detach_down): added
+    (terminal_attach_current_to_main): added
+    (terminal_regroup_all): added
+
+2015-08-26 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.3.2 Release
+  
+2015-08-25 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (edit_copy/edit_paste): Copy/paste into terminal if the current widget is null. This appens when copying/pasting from popup menu.
+       
+2015-08-24 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.3.1 Release
+  
+2015-08-13 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (edit_copy/edit_paste): 
+      If terminal has the focus, then paste clipboard into it. 
+      Else find the current active widget and paste into it.
+      This is mainly needed on Mac OS X where copy/paste is always Command+C/V
+    (check_log_in_state): With authentication by key set p_ct->auth_state = AUTH_STATE_GOT_PASSWORD
+    (choose_manage_connection): set connections_dialog = dialog_window for transient window
+    (sftp_upload_files/sftp_download_files): 
+      p_conn is null when opening a recent connection which is not the list any more.
+      In this case use the copy included in the active terminal.
+    
+  * ssh.c
+    (ssh_node_connect): Check libssh version when authenticating by key
+    
+2015-08-09 Fabio Leone <fab.leo@gmail.com>
+
+  * utils.c
+    (des_decrypt_b64): declare "len" as gsize instead of int. Use len in Decrypt(). Added "gfree (p_enc)".
+  
+  * gui.c
+    (ifr_add): Avoid adjacent duplicates
+    (button_press_event_cb): Check matching string only if there is no selected text (think about editing edit_copy() instead).
+    (query_tooltip_cb): Check matching string only if there is no selected text (think about editing edit_copy() instead).
+    (sftp_upload_files): gtk_file_chooser_get_current_folder() returns null if using recent files, so check it.
+    
+2014-11-09 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.3.0 Release
+  
+2014-11-05 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c  
+    (connection_tab_close): check page > 0
+    
+  * connection_list.c
+    (add_bookmark): If bookmark is present move it at the end of the list
+  
+2014-11-03 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    Added callback configure_event_cb() to main window. This function calls set_window_resized_all (1);
+    (contents_changed_cb): use last_x and last_y when not logged yet, to avoid asking user twice on some server in telnet 
+    (window_state_event_cb): call set_window_resized_all (1);
+    
+2014-10-30 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (refresh_panel_history): prepend items when rebuilding
+    
+  * main.h: 
+    added prefs.hyperlink_tooltip_enabled
+    added prefs.hyperlink_click_enabled
+    
+  * gui.c
+    (query_tooltip_cb): check added prefs.hyperlink_tooltip_enabled
+    (button_press_event_cb): check prefs.hyperlink_click_enabled
+    (size_allocate_cb): call set_window_resized_all (1) only if window size has changed
+    (check_resize_cb): call set_window_resized_all (1);
+    (configure_event_cb): call set_window_resized_all (1);
+    (show_sidebar): call set_window_resized_all (1);
+    (contents_changed_cb): check p_ct->window_resized
+    
+2014-10-24 Fabio Leone <fab.leo@gmail.com>
+
+  transfer.c/h renamed into sftp-panel.c/h
+  
+  * sftp-panel.c
+    (sftp_copy_file_upload): call transfer_window_update (p_ti); at the end.
+    (sftp_copy_file_download): call transfer_window_update (p_ti); at the end.
+    Added load_types() and get_type_pixbuf() functions
+    (create_sftp_panel): call load_types()
+
+2014-10-19 Fabio Leone <fab.leo@gmail.com>
+
+  * main.h
+    _DBG_printf macro replaced with log_debug macro
+    
+  * gui.c
+    added hyperlink_connect_host() and hyperlink_add_host()
+    (connection_tab_new): added match string to terminal for ip addresses.
+    (button_press_event_cb): detect left mouse pressure to activate hyperlink.
+    (button_press_event_cb): add menu item for hyperlink.
+    
+  * connection.c
+    (add_update_connection): 
+      Added parameter "p_conn_model" to create a new connetcion with some start values.
+      Use p_node instead of g_selected_node.
+    
+  * terminal.c
+    (check_log_in_state): detect "username" besides "login"
+    
+2014-10-11 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (notebook_switch_page_cb): call refresh_panel_history().
+    
+    (connection_tab_close): removed this at the end:
+      /*
+            p_ct points to nothing !!!
+            if (p_ct->type == CONNECTION_LOCAL) 
+              save_session_file (NULL);
+      */
+      
+   * additionals.xml: added cd to current directory.
+    
+2014-10-10 Fabio Leone <fab.leo@gmail.com>
+
+  * connection_list.h
+    "auth" replaced with "auth_mode" (can be "prompt", "save" or "key").
+
+2014-10-08 Fabio Leone <fab.leo@gmail.com>
+
+  * transfer.c
+    (refresh_sftp_panel): don't call refresh_panel_history() at the end. Do it only when needed.
+    (sftp_panel_change_directory): call refresh_panel_history() if a bookmark has been added.
+    (refresh_sftp_list_store): do GTK iterations every 500 items added.
+    (entry_filter_changed_cb): append an ITERATION_REFRESH_SFTP_PANEL event (to fix cursor problem in filter entry).
+  
+  * main.c
+    (main): call checkpoint_update() to initialize time.
+    (lterm_iteration): added ITERATION_REFRESH_SFTP_PANEL (to fix cursor problem in filter entry).
+
+2014-09-13 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.2.1 Release
+
+2014-09-11 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (contents_changed_cb): Alloc line after we have the buffer so it can contain it all for sure.
+    (sftp_upload_files): store last local source directory in prefs.last_upload_dir
+    (sftp_download_files): store last local source directory in prefs.last_download_dir
+    
+2014-08-07 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.2.0 Release
+  
+2014-07-30 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (connection_log_on_param): Add new tab before log on. Refresh directory list.
+    (contents_changed_cb): 
+      Remove extra new line at the end of buffer.
+      If _cy exceeds rows in the terminal then adjust it.
+    (notebook_switch_page_cb): Turn off semaphore "switch_tab_enabled" during operations, then enable it.
+    
+  * terminal.c
+    (log_on): Commented out directory refresh
+              Check rc == 0 along with !auth.sftp_enabled
+    
+2014-07-25 Fabio Leone <fab.leo@gmail.com>
+
+  * xml.c
+    added xml_load()
+    
+  * transfer.c
+    added ssh_additionals_cb()
+    (create_sftp_panel): create submenu for additionals in the sftp popup menu.
+    
+  * gui.c
+    added statusbar_push() statusbar_pop()
+    
+2014-07-24 Fabio Leone <fab.leo@gmail.com>
+
+  * transfer.c
+    (sftp_panel_show_filter): grab focus for filter entry only if we are enabling filter
+    
+2014-07-20 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (append_node_to_file_xml): use g_markup_escape_text()
+
+  * transfer.c
+    (sftp_cell_tooltip_cb): use g_markup_escape_text()
+  
+2014-07-18 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c
+    added ssh_node_update_time() function.
+    
+  * transfer.c
+    position entry replaced with text-combo
+    
+2014-07-17 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c
+    (ssh_node_connect): call ssh_userauth_none() more than once.
+    
+  * terminal.c
+    (log_on): show message "Connecting..."
+    (check_log_in_state): show message "Authenticating. Please wait..."
+    
+2014-05-18 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.1.0 Release
+  
+2014-05-17 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (add_update_connection): removed gtk_editable_set_editable() for user and password entries.
+  
+  * terminal.c
+    (log_on): break if auth method is unknown
+    
+  * configure.ac
+    Added --enable-debug option
+    
+2014-05-10 Fabio Leone <fab.leo@gmail.com>
+
+  * 1.0.0 Release
+  
+2014-04-29 Fabio Leone <fab.leo@gmail.com>
+
+  * preferences.c
+    (profile_edit): deleted opacity control
+    
+  * gui.c
+    (apply_profile_terminal): don't apply opacity any more
+    (start_gtk): don't execute gtk_widget_set_visual() (needed by opacity, but causes some problems when movign notebook tabs)
+  
+2014-04-22 Fabio Leone <fab.leo@gmail.com>
+   
+  * gui.c
+    (create_statusbar): create a statusbar for protocol.
+    (update_statusbar): use a dedicated statusbar for protocol.
+  
+2014-04-12 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c
+    (ssh_node_connect): try to open a channel for node validity check
+    (ssh_node_open_channel): set timeout when opening a channel
+    (sftp_refresh_directory_list): set timeout when opening a directory
+    
+2014-04-05 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    (main): added call to ssh_init()
+    
+  * ssh.c
+    (ssh_node_connect): authenticate more than once if got SSH_AUTH_AGAIN
+    
+2014-03-31 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c
+    (ssh_node_connect): call ssh_userauth_none() before ssh_userauth_list() and convert password to UTF8
+    
+2014-03-30 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    (lterm_iteration): modified usleep time to 5000
+    
+2014-03-28 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (statusbar_msg): added
+  
+2014-03-26 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (lterm_iteration): added checkpoint
+  
+2014-03-08 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c and ssh.h added
+  * gui.h: added struct SSH_Info ssh_info to struct ConnectionTab
+
+  * gui.c
+    (connection_tab_new): fill new connection tab object with zero
+    (connection_tab_close): close ssh connection with lt_ssh_disconnect (&p_ct->ssh_info);
+
+2014-03-04 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (start_gtk): quick-launch-window is now contained in the sidebar notebook
+
+    prefs.show_quick_launch_window changed into prefs.show_sidebar
+
+2014-02-22 Fabio Leone <fab.leo@gmail.com>
+
+  * connection_list.h: added sftp_dir to struct Connection
+  * connection_list.c
+    (connection_copy): copy sftp_dir
+
+2014-02-15 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c: 
+    (append_node_to_file_xml): emulation saved as a node, not an attribute
+
+2014-02-09 Fabio Leone <fab.leo@gmail.com>
+
+  * main.h: 
+    Prefs: added sftp parameters
+    Prefs: removed profile parameters (font, colors etc.)
+
+2014-02-01 Fabio Leone <fab.leo@gmail.com>
+
+  * transfer.h: added
+  * transfer.c: added
+
+2014-01-16 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.h: added profile_id in struct ConnectionTab
+  
+2014-01-11 Fabio Leone <fab.leo@gmail.com>
+
+  * protocol.c
+    (load_protocols_from_file_xml): added
+    (save_protocols_to_file_xml): added
+
+2014-01-03 Fabio Leone <fab.leo@gmail.com>
+
+  * profile.c: added functions for managing profiles
+  
+  * gui.c
+    (char_size_changed_cb): gtk_window_set_geometry_hints() commented out
+
+2014-01-02 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c, protocol.c, preferences.c: 
+    replaced every occurrence of gtk_vbox_new() with gtk_box_new (GTK_ORIENTATION_VERTICAL, ...)
+    replaced every occurrence of gtk_hbox_new() with gtk_box_new (GTK_ORIENTATION_HORIZONTAL, ...)
+    
+  * profile.h
+    added struct Profile
+
+2014-01-01 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c: replaced xml loader
+
+  * utils
+    (des_decrypt_b64): use memcpy instead of strcpy
+
+2013-12-31 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c: added log_reset() and log_write()
+
+2013-12-27 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (add_update_connection): changed tab name from "Note" to "Notes"
+    
+  * utils.c
+    (get_desktop_environment): use DESKTOP_SESSION more and don't use GNOME_KEYRING_CONTROL
+    (get_system): return "Mac OS X" string if running on Apple
+  
+2013-04-25 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.4.0 Release
+
+2013-04-22 Fabio Leone <fab.leo@gmail.com>
+
+  * utils.c
+    (findin): added closedir (dirp); before returning 1 (or you get "too many open files")
+
+2013-04-15 Fabio Leone <fab.leo@gmail.com>
+
+  * main.h: added warnings_error_color to struct _prefs
+
+  * main.c
+    (load_settings): read warnings_error_color from file
+
+  * connection_list.c
+    (cl_check): set CONN_WARNING_PROTOCOL_COMMAND_NOT_FOUND if command not found
+
+  * connection.c
+    (connection_name_cell_data_func): paint connections with fatal warnings of red
+    (add_update_connection): add CONN_WARNING_PROTOCOL_COMMAND_NOT_FOUND warning message
+
+  * utils.c
+    (findin): "return;" replaced with "return (0);"
+
+2013-04-14 Fabio Leone <fab.leo@gmail.com>
+
+  * utils.c
+    (des_encrypt_b64): check input string length first
+    (des_decrypt_b64): check input string length first
+
+2013-04-13 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (key_press_event_cb): Mac: pressing Alt_gr+key has a strange behaviour, so detect keys and write the symbol
+    (start_gtk): set "gtk-button-images" property to TRUE to show buttons images
+    (menu definition): Use Ctrl+left/right to change tab, instead of Alt modifier
+
+  * protocol.c
+    (query_name_new_protocol): use main_window as parent window when creating the diaolg
+
+2013-04-12 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    Differentiate some shortcuts between Linux and Mac
+    (start_gtk): Mac: catch NSApplicationBlockTermination signal
+    
+  * main.c
+    catch SIGTERM signal
+
+2013-04-09 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    (main): use struct passwd and getpwuid() in case "HOME" env. var. is not set.
+    
+2013-04-07 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (go_to_url): added Mac OS X exception
+    (connection_tab_close): differentiate confirmation prompt between local shell and remote connection
+
+2013-04-06 Fabio Leone <fab.leo@gmail.com>
+
+  * main.h
+    added img_dir and data_dir to global structure (IMGDIR and PKGDATADIR not correct if running in a Mac OSX bundle)
+    
+  * main.c
+    (main): modify img_dir and data_dir if running in a Mac OSX bundle
+
+  * gui.c
+    (create_stock_objects/start_gtk/query_value/Info): IMGDIR macro replaced with globals.img_dir
+    (Info): PKGDATADIR macro replaced with globals.data_dir
+    (connection_new_terminal_dir): use vte_terminal_fork_command() on Mac
+
+  * connection.c
+    (connection_init_stuff): IMGDIR macro replaced with globals.img_dir
+
+2013-04-03 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    lterm_iteration() moved here from gui.c
+    (main): ending moved operations here from application_quit()
+
+  * gui.c
+    (choose_manage_connection): create a new accelerator to close window pressing ESC key
+
+2013-04-01 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (update_recent_sessions_menu): don't free "tip" for it has not been allocated
+    (create_accelerators): Use "command" key modifier in mac-integration
+
+2013-03-28 Fabio Leone <fab.leo@gmail.com>
+
+  add function prototypes, otherwise segmentation fault will occur in Mac OS
+
+  * main.c
+    (load_settings): 
+      use Monaco 11 as default terminal font on Mac OS
+      set #00E600 (light green) as default foreground color
+
+2013-03-27 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c: implemented rpl_malloc() to avoid bug in AC_FUNC_MALLOC macro
+
+2013-03-25 Fabio Leone <fab.leo@gmail.com>
+
+  * utils.c
+    added get_system() for retrieving operating system
+
+  * gui.c
+    (Info): show operating system
+    (log_on): use vte_terminal_fork_command_full() if GTK+3
+    (connection_new_terminal_dir): use vte_terminal_fork_command_full() if GTK+3
+
+2013-03-24 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (contents_changed_cb):
+    pass NULL as third parameter in calling vte_terminal_get_text()
+    declare _cx and _cy as glong (as int causes segmentation fault under MacOSX)
+
+  * connection.c
+    (add_update_connection): encrypt auth password only if present
+
+  * connection_list.h
+    added prototypes (important when compiling on MacOSX)
+
+2013-03-21 Fabio Leone <fab.leo@gmail.com>
+
+  * configure.in:
+    check for MAC integration
+
+  * connection.c
+    (choose_manage_connection): center window better
+    (connection_import): check result before showing final message
+
+  * gui.c
+    (connection_tab_add): set initial tab text to "local shell"
+    mac-integration: include gtkosxapplication.h
+    mac-integration: added osx_accel_map_foreach_controltometa_lcb() and osx_accel_map_foreach_mod1tocontrol_lcb() for transforming accelerators
+    (get_main_menu): mac-integration: alter menu
+    (start_gtk): 
+      hide normal menu bar if under MacOSX 
+      call gtk_osxapplication_ready()
+
+2013-02-18 Fabio Leone <fab.leo@gmail.com>
+
+  * utils.h
+    include crypt.h only if compiling in Linux
+
+2012-07-16 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.3.1 Release
+
+2012-07-15 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (start_gtk): if upgraded to version 0.3.1 then reset recent connections
+
+2012-07-09 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (choose_manage_connection): dialog realized by a normal window to manage gtk iteratioins
+
+2012-07-08 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (create_connections_tree_view): use gtk_tree_view_set_reorderable()
+
+2012-07-08 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    use different callback functions for "row-deleted" signal: on_drag_data_deleted_qlw() and on_drag_data_deleted_dialog()
+    (choose_manage_connection):
+      disable dnd signals for QLW and enable them at the end. 
+      refresh quick launch window tree view at the end.
+
+  * gui.c
+    (start_gtk): gtk_main() replaced with while loop to perform operations within the gtk main loop
+
+2012-07-06 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    created get_recent_connection() to retireve a pointer to a recent connection
+    (load_recent_connections): don't insert duplicates
+    (check_log_in_state): add connection to recent connections list
+
+2012-07-05 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    created expand_connection_tree_view_groups() to expand nodes that user expanded
+
+2012-07-04 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    choose_manage_connection(): 
+      gtk_tree_view_enable_model_drag_source() for DND
+      gtk_tree_view_enable_model_drag_dest() for DND
+      connected tree model to "row-inserted" and "row-changed" to manage drag and drop
+
+2012-07-03 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (add_update_connection): GTK3: get text from emulation GtkComboBoxText
+    (duplicate_connection_button_clicked_cb): performs duplication
+    (connection_import): import xml and profile-style files
+
+2012-07-02 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    added note_buffer_changed_cb callbak to limit number of characters in the notes
+    (add_update_connection): 
+      first parameter changed from (struct Connection *) to (struct GroupNode *)
+      use validate_name() to validate connection or folder name
+
+2012-07-01 Fabio Leone <fab.leo@gmail.com>
+
+  * connection_list.h
+    added "note" to struct Connection
+
+  * connection.c
+    added "note" managing
+    (create_connections_tree_view): draw lines interconnecting the expanders
+
+2012-06-30 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (connection_export): save in xml format
+    (connection_init_stuff): create tree store
+    (choose_manage_connection): 
+    dialog for choosing connections is now global and called "connections_dialog"
+    created buttons
+
+2012-06-29 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    added group_tree_sort() to sort connection tree
+
+2012-06-28 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (create_connections_list_store): list and tree "init" replaced with "release"
+
+2012-06-27 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    created load_connections_from_file_xml() to load xml file
+    (load_connections): try connections.xml file first, then old file
+    (create_connections_list_store): replaced load_connections_from_file() with load_connections()
+    (choose_manage_connection): save_connections_to_file() commented out
+
+2012-06-26 Fabio Leone <fab.leo@gmail.com>
+
+  * main.h
+    added connections_xml to _globals struct, will replace serverlist
+
+  * connection.c
+    (load_connections_from_file_version): insert connections in the group tree, there will be no folder
+    added save_connections_to_file_xml() function to save connections in xml format
+
+2012-06-25 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (add_update_connection): when updating copy everything before overwriting values. This to keep some data not shown in the dialog
+    (row_activated_cb): emit OK response only if selected row is a connection
+    (row_activated_quick_cb): completely revisited
+
+2012-06-24 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    added GroupNode and GroupTree functions
+    get_selected_connection() remade
+
+2012-06-23 Fabio Leone <fab.leo@gmail.com>
+
+  * Rum shot
+
+  * gui.c
+    (add_toolbar): added search entry widget
+
+  * connection.c
+    (create_connections_list_store): port type changed from G_TYPE_INT to G_TYPE_STRING
+
+  * connection.h
+    added GroupTree and GroupNode structs
+
+2012-06-22 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    changed GtkListStore in GtkTreeStore
+
+2012-06-10 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.3.0 Release
+
+2012-06-07 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (connection_log_on_param): copy auth_password into password before calling log_on()
+
+2012-06-06 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.h
+    added flag constants for save_connections_to_file()
+
+  * connection.c
+    (save_connections_to_file): added flags to save current user and passord or not (for Session->Save session)
+
+  * gui.c
+    (save_session_file): pass flags to save_session_file()
+    (contents_changed_cb): completely changed: calls check_log_in_state() for managing Finite State Autom of login states 
+
+  * connection.c
+    (detect_serverlist_file_version): check [CFG].version in serverlist file for better version detecting (needed for user/auth_user)
+    load_connections_from_file_v2() changed in load_connections_from_file_version() with version input parameter
+
+2012-06-05 Fabio Leone <fab.leo@gmail.com>
+
+  * configure.in
+    added --with-gtk2 to force linking with GTK+-2.0
+
+2012-06-04 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.h
+    added auth_user and auth_password to struct Connection
+
+  * connection.c
+    (connection_copy): added auth_user and auth_password copy
+    (load_connections_from_file_v2): read auth_user and auth_password, alternatively read user and password
+    (add_update_connection): use auth_user and auth_password
+
+  * gui.c
+    (contents_changed_cb): use auth_user and auth_password
+    (connection_log_on_param): if "auth" then copy auth_user into user
+    (help_home_page): use gnome-open, kde-open and xdg-open
+    (save_session_file): don't check prefs.save_session any more.
+
+2012-06-03 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (adjust_font_size): gtk_window_resize() commented out
+    (char_size_changed_cb): 
+    returns immediately if window is maximized
+    returns immediately if desktop environment is KDE (don't resize window)
+
+2012-06-02 Fabio Leone <fab.leo@gmail.com>
+
+  * Starting 0.3.x version for gtk 3.0 compatibility
+
+  * configure.in
+    check gtk 3.0 first, then gtk 2.0
+    check vte version accordingly to gtk version
+  
+  * connection.c protocol.c gui.c preferences.c
+    replace every GTK_BOX (GTK_DIALOG (dialog)->vbox) with gtk_dialog_get_content_area (GTK_DIALOG (dialog))
+    differentiate every g_signal() since GTK_OBJECT and GTK_SIGNAL_FUNC don't exist in gtk3
+    don't access member objects any more, use functions.
+
+2012-05-26 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.9 Release
+
+2012-05-20 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (contents_changed_cb): close connection when query_value() returns -1 (that means user clicked Cancel)
+
+2012-05-01 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (contents_changed_cb): check protocol flags before asking username or password
+
+2012-04-29 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    Ctrl-Q changed in Alt-X
+    (terminal_popup_menu): added PasteHost branch
+    (start_gtk): added load_connections() on startup, this is needed by "Paste host" menu
+    (log_on): not checking "ask flags" anymore, will do in contents_changed_cb()
+
+2012-04-24 Fabio Leone <fab.leo@gmail.com>
+
+  * main.c
+    (load_settings): save_session default value changed to 0
+
+  * gui.c
+    (connection_new_terminal_dir): test p_connection_tab after connection_tab_new() call
+
+2012-04-22 Fabio Leone <fab.leo@gmail.com>
+
+  * configure.in
+    quoted AC_MSG_ERROR arguments into []
+
+  * protocol.c
+    (manage_protocols): changed text for askuser and askpassword check buttons
+
+  * gui.c
+    (view_quick_launch_window): quick launch window grabs focus when activated
+
+  * connection.c
+    created get_selected_connection() function for getting selected connection from TreeView
+    (create_quick_launch_window): Added "Copy host to clipboard" button in quick launch window
+    (choose_manage_connection): use get_selected_connection() instead of iterating tree view after gtk_dialog_run() 
+
+2012-02-26 Fabio Leone <fab.leo@gmail.com>
+
+  * configure.in
+    use pkg-config to check libssl
+
+  * gui.c
+    check prefs.save_session in start_gtk(), not in load_session_file() any more.
+    updated message in --help option
+
+  * 0.2.8 Release
+
+2011-08-12 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.7 Release
+    
+2011-08-02 Fabio Leone <fab.leo@gmail.com>
+     
+  * gui.c
+    added functions update_recent_sessions_menu() add_recent_session() open_recent_connection_from_info()
+ 
+  * connection.c
+    added funcion connection_fill_from_string()
+
+2011-08-02 Fabio Leone <fab.leo@gmail.com>
+     
+  * gui.c
+    (update_recent_connections_menu): immediately returns, just do nothing (disable recent menu)
+
+2011-07-31 Fabio Leone <fab.leo@gmail.com>
+     
+  * gui.c
+    added tooltips in main_menu_items action entries
+    introduced GtkRecentManager
+
+2011-07-27 Fabio Leone <fab.leo@gmail.com>
+     
+  * gui.c
+    (connection_tab_getcwd): try to get directory for ssh connetions
+
+2011-07-27 Fabio Leone <fab.leo@gmail.com>
+
+  * main.h
+    added recent_connections_file and recent_sessions_file to _globals struct
+     
+  * gui.c
+    added add_recent_connection()
+    added save_recent_connections()
+
+2011-07-26 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (child_exited_cb): use connection_tab_close() instead of connection_close_tab()
+
+2011-07-24 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (load_session_file): open terminals on localhost
+    (save_session_file): save terminals on localhost
+    (connection_new_terminal): save session
+    (window_title_changed_cb): save session if local shell to store new directory
+    (connection_tab_close): save session if local shell
+    (application_quit): close terminal in "can_quit if"
+
+2011-07-22 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (connection_new_terminal): added input parameter "directory"
+    (connection_duplicate): duplicate local shell too
+
+2011-07-20 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    Added shortcut for quick launch window
+
+2011-07-19 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    Added Debug button on toolbar
+    Added connection_tab_getcwd()
+
+2011-07-18 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    Added "Session" menu
+    Added session_load() and session_save() functions
+
+2011-07-15 Fabio Leone <fab.leo@gmail.com>
+
+  * main.h: introduced "start_session_file" to _globals structure
+
+  * main.c: open session passed as parameter
+
+  * configure.in: added statements for MIME update
+
+  * data/Makefile.am: added section for .lterm files
+
+2011-07-14 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    added load_session_file() function
+    added save_session_file() function
+    (connection_log_on_param): call to save_session()
+    (connection_close_tab): call to save_session()
+    (application_quit): call to save_session()
+
+  * main.h
+    introduced "save_session_file" flag to preferences
+
+2011-07-13 Fabio Leone <fab.leo@gmail.com>
+
+  * main.h
+    added session_file to _globals structure
+
+2011-07-12 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    (add_update_connection): set port from existing connection after creating protocols
+
+2011-07-11 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.7-test1 started
+
+  * main.h
+    introduced tab_status_disconnected_alert_color to preferences
+
+  * gui.c
+    (connection_tab_set_status): some smart behaviour
+
+2011-07-11 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.6 Release
+
+2011-07-09 Fabio Leone <fab.leo@gmail.com>
+
+  * Created data/lterm.desktop.ini
+  
+  * data/Makefile.am: desktopdir specifications
+
+  * README: copyright and web site updated
+
+2011-07-07 Fabio Leone <fab.leo@gmail.com>
+
+  * protocol.c
+    (manage_protocols): added check boxes for flags
+
+  * gui.c
+    (child_exited_cb): check protocol flags for tab closing on disconnection
+
+  * connection.c
+    (add_update_connection): check box application on flags changed
+
+2011-07-06 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.6-test2 started
+
+  * profile.c
+    (profile_delete_section): copy line only if length greater than 0
+
+  * protocol.h
+    added "flags" field to Protocol structure
+
+  * protocol.c
+    (load_protocols_from_file): read 4th element (flags)
+
+  * gui.c
+    (expand_args): changed second parameter from struct Protocol* to char*
+    (log_on): 
+      check protocol flags for authentication
+      don't set logged=1
+    (contents_changed_cb): don't test p_ct->connection.auth, only type for "login:" and "password:"
+    added "Duplicate" item for menu "Connections"
+    added connection_log_on() function
+
+2011-06-21 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (query_value): added gtk_window_set_transient_for() for dialog
+
+2011-04-06 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.6-test1 started
+
+  * gui.c
+    added Export and Import item in Connections menu
+
+  * connection.c
+    (save_connections_to_file): 
+      use parameter "filename" in fopen
+      added return (0)
+    (load_connections_to_file): use parameter "filename" in fopen
+
+2011-04-03 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.5 Release
+
+2011-03-30 Fabio Leone <fab.leo@gmail.com>
+
+  * utils.c
+    (check_command): use PATH environment variable to search
+
+  * profile.c
+    added function profile_delete_section()
+
+  * protocol.c
+    (save_protocols_to_file): delete entire section "protocols" before saving
+
+2011-03-29 Fabio Leone <fab.leo@gmail.com>
+
+  * utils.c
+    (list_get_nth): tmp is now a dinamically allocated, not an array of fixed length any more
+
+2011-03-19 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (connection_log_off): check pointer to current connection before isconnecting
+
+2011-03-19 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    added "Edit protocols" item in Connections menu
+
+  * protocol.c
+    added manage_protocols() function
+
+  * connection.c
+    (create_entry_control): third parameter changed to TRUE in gtk_box_pack_start()
+
+2011-03-12 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.4 Release
+
+2011-03-09 Fabio Leone <fab.leo@gmail.com>
+
+  * main.h
+    introduced parameter "local_start_directory"
+
+  * gui.c
+    (connection_new_terminal): change initial directory
+
+2011-03-08 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.h
+    inserted flag "flags" in Connection structure and related defs
+
+  * connection.c
+    (add_update_connection): added "Ignore warnings" check
+
+2011-03-07 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.h
+    inserted flag "warnings" in Connection structure and related defs
+
+  * connection.c
+    added cl_host_search() for host duplication checking
+    added cl_check() for checking connections and find warnings
+    added connection_name_cell_data_func() to change name color
+    (add_update_connection): trim host; show warnings
+    (connection_copy): added flag "warnings" copy
+    (refresh_conn_list): warnings check calling cl_check()
+
+2010-12-04 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (start_gtk): set icon for main window
+
+2010-11-14 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    created funcion create_search_by_combo()
+    (choose_manage_connection): added combo box for changing search-column
+    (create_quick_launch_window): added combo box for changing search-column
+    (row_activated_quick_cb): unselect rows after activating
+
+2010-11-12 Fabio Leone <fab.leo@gmail.com>
+
+  * configure.in
+    changed "libssl" echo into "libssl-dev" in library checking    
+
+2010-11-04 Fabio Leone <fab.leo@gmail.com>
+
+  * profile.c
+    (profile_load_string): fixed : not stops when reached next section
+
+2010-11-04 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    created function create_connections_list_store()
+    to get initial list store and list of connections
+
+2010-11-04 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.c
+    created funcion create_quick_launch_window()
+
+  * preferences.c
+    (show_preferences): added entry for quick launch window font
+
+2010-11-02 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (connection_tab_add): changed order of elements in label (from the end)
+
+2010-11-01 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (help_home_page): changed to new project page
+
+2010-10-31 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.3 Release (first on SourceForge.net)
+
+2010-10-30 Fabio Leone <fab.leo@gmail.com>
+
+  * utils.c
+    Added check_command() function to find if clients exist
+
+  * gui.c
+    (apply_preferences): applies settings to every terminal
+    (log_on): command existence check
+
+  * connection.c
+    (choose_manage_connection): selection after managing
+
+2010-10-29 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    created connection_tab_set_status() to set tab alerts.
+    (contents_changed_cb): added cursor position check
+
+  * main.c
+    (load_settings): tab alerts settings
+
+  * preferences.c
+    (show_preferences): added tab alerts check
+
+2010-10-28 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.h
+    Added stock objects names
+
+  * gui.c
+    Added add_stock_icon() and create_stock_objects() to create my own stock objects
+    Added terminal icon for local terminals
+    Added terminal button on toolbar
+
+  * protocol.c
+    Turned set_standard_protocols() into check_standard_protocols()
+    for checking basic protocols and add missing ones.
+
+2010-10-24 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.2 Release
+
+2010-10-23 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (expand_args):
+    changed 'w' into 'P' for password
+    added 'd' for directory (e.g. samba condivision folder)
+
+  * connection.c
+    (add_update_connection): added password encryption
+    (load_connections_from_file_v2): added password decryption
+
+  * profile.c
+    Turned profile_save_string() in profile_modify_string()
+    introducing "operation" and first parameter (save or delete parameters)
+
+  * main.c
+    added cmpver() to detect upgrades
+
+2010-10-22 Fabio Leone <fab.leo@gmail.com>
+
+  * configure.in
+    Added ssl library check
+
+  * utils.c
+    Added Encrypt() and Decrypt() function for DES encryption/decryption
+
+2010-10-21 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    Added contents_changed_cb() callback function
+    (connection_tab_add): added contents-changed signal for open tabs
+
+  * gui.h
+    Added "buffer" to ConnectionTab struct for keeping terminal text
+
+  * connection.c
+    (add_update_connection): created "Basic" and "Advanced" tabs
+
+2010-10-20 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.h
+    Added user_options field in struct Connection
+
+  * connection.c
+    (add_update_connection): added Option entry widget for user extra options
+    (load_connections_from_file_v2): read user options
+    (save_connections_to_file): save user options
+
+  * gui.c
+    (log_on): added user options to expanded_args string
+
+  * main.c
+    (load_settings): added more emulations to emulation_list
+
+2010-10-17 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.1 Release
+
+2010-10-15 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    Added "Select all" to popup menu
+
+2010-10-14 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (edit_copy_and_paste): added this function and related menu items
+    (selection_changed_cb): added settings for alternative mouse behaviour (PuTTY-like)
+    (button_press_event_cb): check mouse behaviour to know what to do
+
+  * main.c
+    (load_settings): added settings for alternative mouse behaviour
+    (save_settings): added settings for alternative mouse behaviour
+
+  * preferences.c
+    (show_preferences): table with two columns for tab "general".
+    added settings for alternative mouse behaviour.
+
+2010-10-13 Fabio Leone <fab.leo@gmail.com>
+
+  * preferences.h
+    (show_preferences): removed "maximize at startup" option
+    (window_title_changed_cb): 
+    added casting to GTK_LABEL for p_ct->label in call to gtk_label_set_text()
+
+2010-10-12 Fabio Leone <fab.leo@gmail.com>
+
+  * connection.h
+    Added password field in struct Connection
+
+  * gui.c
+    (expand_args): added 'w' case for password.
+    (query_value): added "flag_password" parameter to protect password
+
+2010-10-11 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c 
+    (window_title_changed_cb): 
+    Window title changes now only for local terminals.
+    Text is truncated in the connection tab if too long.
+    (query_value): 
+    gtk_label_set_markup_with_mnemonic() replaced with gtk_label_set_markup()
+    for underscore to be treated like every other character.
+
+2010-10-10 Fabio Leone <fab.leo@gmail.com>
+
+  * 0.2.0 Release (first release with tabs)
+
+

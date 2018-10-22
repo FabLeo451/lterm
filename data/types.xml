@@ -1,0 +1,83 @@
+<?xml version = "1.0"?>
+<types>
+  <!-- Documents -->
+  <type id="txt">txt.png</type>
+  <type id="doc">txt.png</type>
+  <type id="docx">txt.png</type>
+  <type id="rtf">txt.png</type>
+  <type id="csv">txt.png</type>
+  <type id="README">txt.png</type>
+  <type id="NEWS">txt.png</type>
+  <type id="CHANGES">txt.png</type>
+  <type id="INSTALL">txt.png</type>
+  <type id="xls">xls.png</type>
+  <type id="xlsx">xls.png</type>
+  <type id="pdf">pdf.png</type>
+  <type id="xml">xml.png</type>
+  <type id="log">log.png</type>
+  <type id="syslog">log.png</type>
+  <type id="ChangeLog">log.png</type>
+  <!-- Compression -->
+  <type id="gz">zip.png</type>
+  <type id="Z">zip.png</type>
+  <type id="tar">zip.png</type>
+  <type id="rar">zip.png</type>
+  <type id="bz">zip.png</type>
+  <type id="bz2">zip.png</type>
+  <type id="zip">zip.png</type>
+  <type id="7z">zip.png</type>
+  <type id="cab">zip.png</type>
+  <type id="ace">zip.png</type>
+  <type id="arj">zip.png</type>
+  <type id="deb">zip.png</type>
+  <type id="rpm">zip.png</type>
+  <!-- Source -->
+  <type id="c">c.png</type>
+  <type id="h">h.png</type>
+  <type id="cpp">cpp.png</type>
+  <type id="hpp">h.png</type>
+  <type id="o">o.png</type>
+  <type id="java">java.png</type>
+  <type id="class">class.png</type>
+  <type id="jar">jar.png</type>
+  <type id="pl">pl.png</type>
+  <type id="py">py.png</type>
+  <type id="sql">sql.png</type>
+  <type id="php">php.png</type>
+  <type id="asp">asp.png</type>
+  <type id="jsp">jsp.png</type>
+  <type id="css">css.png</type>
+  <type id="html">html.png</type>
+  <type id="htm">html.png</type>
+  <!-- Configuration -->
+  <type id="conf">conf.png</type>
+  <type id="cfg">conf.png</type>
+  <type id="ini">conf.png</type>
+  <type id="properties">conf.png</type>
+  <type id="profile">conf.png</type>
+  <!-- Executable -->
+  <type id="sh">shell.png</type>
+  <type id="exe">shell.png</type>
+  <type id="bat">shell.png</type>
+  <!-- Pictures -->
+  <type id="png">img.png</type>
+  <type id="jpg">img.png</type>
+  <type id="jpeg">img.png</type>
+  <type id="bmp">img.png</type>
+  <type id="gif">img.png</type>
+  <type id="tif">img.png</type>
+  <type id="ico">img.png</type>
+  <!-- Disk image -->
+  <type id="iso">iso.png</type>
+  <type id="img">iso.png</type>
+  <type id="dmg">iso.png</type>
+  <!-- Multimedia -->
+  <type id="wav">wav.png</type>
+  <type id="mp3">wav.png</type>
+  <type id="snd">wav.png</type>
+  <type id="avi">video.png</type>
+  <type id="mpeg">video.png</type>
+  <type id="divx">video.png</type>
+  <type id="mp4">video.png</type>
+  <type id="mov">video.png</type>
+</types>

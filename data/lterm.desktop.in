@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=lterm
+Comment=
+Exec=lterm %F
+Icon=IMGDIR/main_icon.png
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Utility;TerminalEmulator;
+Encoding=UTF-8
+StartupNotify=true
+MimeType=application/lterm-session;application/lterm-connection;
+
