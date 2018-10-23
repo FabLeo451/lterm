@@ -195,7 +195,8 @@ ssh_list_keepalive (struct SSH_List *p_ssh_list)
 }
 
 /**
- * ssh_node_connect() - connect to server and add node to list
+ * Connect to server and add node to list.
+ * Reuse an existing node if present.
  */
 struct SSH_Node *
 ssh_node_connect (struct SSH_List *p_ssh_list, struct SSH_Auth_Data *p_auth)
@@ -209,6 +210,8 @@ ssh_node_connect (struct SSH_List *p_ssh_list, struct SSH_Auth_Data *p_auth)
   
   memset (&node, 0, sizeof (struct SSH_Node));
   
+  /* Check if there is an active node with the same user and host */
+
   if (p_node = ssh_list_search (p_ssh_list, p_auth->host, p_auth->user))
     {
       log_write ("Found ssh node for %s@%s\n", p_auth->user, p_auth->host);
@@ -221,28 +224,25 @@ ssh_node_connect (struct SSH_List *p_ssh_list, struct SSH_Auth_Data *p_auth)
           return (NULL);
         }
         
-      /* check node validity */
+      /* Check node validity */
       
-      //if (valid)
-      //  {
-          ssh_channel c;
+      ssh_channel c;
+      
+      log_write ("Tryng to open a channel on %s@%s\n", p_auth->user, p_auth->host);
+      
+      sftp_spinner_refresh ();
+      
+      if (c = ssh_node_open_channel (p_node))
+        {
+          log_write ("Channel successfully opened, close it and return\n");
           
-          log_write ("Tryng to open a channel on %s@%s\n", p_auth->user, p_auth->host);
-          
-          sftp_spinner_refresh ();
-          
-          if (c = ssh_node_open_channel (p_node))
-            {
-              log_write ("Channel successfully opened, close it and return\n");
-              
-              ssh_channel_close (c);
-              ssh_channel_free (c);
-              ssh_node_ref (p_node);
-              return (p_node);
-            }
-          else
-            valid = 0;
-      //  }
+          ssh_channel_close (c);
+          ssh_channel_free (c);
+          ssh_node_ref (p_node);
+          return (p_node);
+        }
+      else
+        valid = 0;
     
       if (!valid) {
         log_write ("Not a valid node for to %s@%s, recreate it\n", p_auth->user, p_auth->host);
