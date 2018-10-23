@@ -1,6 +1,6 @@
 
 /**
- * Copyright (C) 2009-2017 Fabio Leone
+ * Copyright (C) 2009-2018 Fabio Leone
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -225,8 +225,8 @@ verify_knownhost (ssh_session session)
       fprintf(stderr, "For security reasons, connection will be stopped\n");*/
 
       result = msgbox_yes_no ("Host key for server changed.\n"
-                              "The new key is:\n"
-                              "%s\n"
+                              "The new key is:\n\n"
+                              "%s\n\n"
                               "Do you trust the host key?", hexa);
 
       //free (hash);
@@ -257,7 +257,7 @@ verify_knownhost (ssh_session session)
       hexa = ssh_get_hexa(hash, hlen);
 
       result = msgbox_yes_no ("The server is unknown.\n"
-                              "Do you trust the host key?\n"
+                              "Do you trust the host key?\n\n"
                               "%s\n", hexa);
 
       if (result == GTK_RESPONSE_YES) 
