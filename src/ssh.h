@@ -9,6 +9,7 @@
 #define SSH_ERR_CONNECT 1
 #define SSH_ERR_AUTH 2
 #define SSH_ERR_UNKNOWN_AUTH_METHOD 3
+#define SSH_ERR_HOST_NOT_VERIFIED 4
 
 struct Directory_Entry
   {

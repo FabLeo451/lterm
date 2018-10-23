@@ -1,4 +1,13 @@
 
+2018-10-23 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c
+    (verify_knownhost): added
+    (ssh_node_connect): verify host calling verify_knownhost()
+
+  * terminal.c
+    (log_on): Don't do other attempts on SSH_ERR_HOST_NOT_VERIFIED
+
 2017-12-23 Fabio Leone <fab.leo@gmail.com>
 
   * 1.5.1 Release

@@ -184,7 +184,7 @@ log_on (struct ConnectionTab *p_conn_tab)
 
   tabSetConnectionStatus (p_conn_tab, TAB_CONN_STATUS_CONNECTING);
 
-  if (/*!strcmp (p_conn_tab->connection.protocol, "ssh")*/p_prot->type == PROT_TYPE_SSH)
+  if (p_prot->type == PROT_TYPE_SSH)
     {      
       log_write ("Init ssh\n");
       
@@ -277,6 +277,8 @@ log_on (struct ConnectionTab *p_conn_tab)
                   else if (login_rc == SSH_ERR_CONNECT)
                     return (1);
                   else if (login_rc == SSH_ERR_UNKNOWN_AUTH_METHOD)
+                    break;
+                  else if (login_rc == SSH_ERR_HOST_NOT_VERIFIED)
                     break;
                   else
                     p_conn_tab->auth_attempt ++;
