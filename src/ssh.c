@@ -239,20 +239,7 @@ verify_knownhost (ssh_session session)
       break;
 
     case SSH_SERVER_FOUND_OTHER:
-      msgbox_error ("The host key for this server was not found but an other type of key exists.\n"
-                    "An attacker might change the default server key to\n"
-                    "confuse your client into thinking the key does not exist\n");
-
-      verifyResult = -1;
-
-      break;
-
     case SSH_SERVER_FILE_NOT_FOUND:
-      msgbox_info ("Could not find known host file.\n"
-                   "If you accept the host key in the next dialog,\n"
-                   "the file will be automatically created.");
-      /* fallback to SSH_SERVER_NOT_KNOWN behavior */
-
     case SSH_SERVER_NOT_KNOWN:
       hexa = ssh_get_hexa(hash, hlen);
 
