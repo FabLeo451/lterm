@@ -124,15 +124,19 @@ the terms of GNU General Public License</property>
                 <property name="valign">start</property>
                 <property name="xpad">5</property>
                 <property name="ypad">5</property>
-                <property name="label" translatable="yes">&lt;b&gt;Program by&lt;/b&gt;
+                <property name="label" translatable="yes">&lt;b&gt;Program&lt;/b&gt;
 Fabio Leone
+
+&lt;b&gt;Fedora RPM package&lt;/b&gt;
+Luis Manuel
+
+&lt;b&gt;Main icon&lt;/b&gt;
+Patrizio Spanò
 
 &lt;b&gt;Thanks to&lt;/b&gt;
 Francesco Gabriele, Rosario Scumaci,Teresa Sirianni, Giorgio Galeotti,
 Carlo Troiano, Michelangelo Molinaro,Rita Gangemi, Gianluigi Manzo
-
-&lt;b&gt;Icon created by&lt;/b&gt;
-Patrizio Spanò</property>
+</property>
                 <property name="xalign">0</property>
               </object>
             </child>
