@@ -1,4 +1,10 @@
 
+2018-10-24 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (terminal_detach): Width and height of new paned widget are sometimes = 1 (from gtk_widget_get_allocation). 
+                       In that case don't set bar position.
+
 2018-10-23 Fabio Leone <fab.leo@gmail.com>
 
   * ssh.c

@@ -4,7 +4,10 @@ lterm 1.5.2 (?? ?? ????)
 ---------------------------------
 
 Changes:
-  - Verify known hosts
+  - When connecting via SSH, host identity check message are now shown in the gui, and not inside the temrinal.
+
+Bug fixes:
+  - When splitting window, sometimes active tab takes all the space.
 
 lterm 1.5.1 (22 12 2017)
 ---------------------------------
