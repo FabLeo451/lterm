@@ -2182,7 +2182,7 @@ sftp_onPopupMenu (GtkWidget *treeview, gpointer userdata)
 static void
 combo_change_position_cb (GtkWidget *entry, gpointer user_data)
 {
-  log_debug ("position_selected_tearoff=%d\n", (int) sftp_panel.position_selected_tearoff);
+  //log_debug ("position_selected_tearoff=%d\n", (int) sftp_panel.position_selected_tearoff);
   
   if (sftp_panel.position_selected_tearoff == FALSE)
     return;
