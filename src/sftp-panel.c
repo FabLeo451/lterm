@@ -800,10 +800,13 @@ saveMirrorFile (SMirrorFile *mf)
   
   if (rc == 0) {
     log_write ("Uploaded %d bytes\n", ti.worked);
-    mf->lastSaved = time(NULL);
+    //mf->lastSaved = time(NULL); // updating only here makes an infinite loop trying to save file on failure
   }
   else
     msgbox_error ("Unable to save file:\n%s", mf->localFile);
+    
+  /* Update anyway to avoid infinite loop */
+  mf->lastSaved = time(NULL);
       
   //transfer_window_close ();
   

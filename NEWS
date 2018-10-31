@@ -7,7 +7,8 @@ Changes:
   - When connecting via SSH, host identity check message are now shown in the gui, and not inside the temrinal.
 
 Bug fixes:
-  - When splitting window, sometimes active tab takes all the space.
+  - Terminal splitting: sometimes active tab takes all the available space.
+  - Remote files saving: infinite loop on failure.
 
 lterm 1.5.1 (22 12 2017)
 ---------------------------------

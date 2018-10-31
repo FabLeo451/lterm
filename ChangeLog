@@ -1,4 +1,9 @@
 
+2018-10-31 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (saveMirrorFile): update always "lastSaved" to avoid infinite loop trying to save file on failure
+  
 2018-10-24 Fabio Leone <fab.leo@gmail.com>
 
   * gui.c
