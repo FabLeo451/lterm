@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkBox" id="vbox_main">
@@ -70,7 +70,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">
-Copyright (c) 2009-2017 Fabio Leone
+Copyright (c) 2009-2018 Fabio Leone
 
 This is free software, released under
 the terms of GNU General Public License</property>
@@ -127,7 +127,7 @@ the terms of GNU General Public License</property>
                 <property name="label" translatable="yes">&lt;b&gt;Program&lt;/b&gt;
 Fabio Leone
 
-&lt;b&gt;Fedora RPM package&lt;/b&gt;
+&lt;b&gt;Fedora package&lt;/b&gt;
 Luis Manuel
 
 &lt;b&gt;Main icon&lt;/b&gt;
