@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.63])
-AC_INIT(lterm, 1.5.2-f1)
+AC_INIT(lterm, 1.5.2-test1)
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/preferences.c])
 AM_CONFIG_HEADER(src/config.h)
