@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <requires lib="vte" version="0.0"/>
   <requires lib="vte-2.91" version="0.40"/>
   <object class="GtkAdjustment" id="adj_buffer">
     <property name="lower">1</property>
-    <property name="upper">1024</property>
+    <property name="upper">9.9999999999999996e+27</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -854,18 +854,6 @@
                         <property name="left_attach">1</property>
                         <property name="top_attach">0</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                 </child>

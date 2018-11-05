@@ -1,6 +1,6 @@
 
 /**
- * Copyright (C) 2009-2017 Fabio Leone
+ * Copyright (C) 2009-2018 Fabio Leone
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,8 +27,10 @@
 #include <sys/stat.h>
 #include <libgen.h>
 #include <errno.h>
+#include <libssh/libssh.h> 
 #include "main.h"
 #include "utils.h"
+#include "gui.h"
 #include "ssh.h"
 #include "sftp-panel.h"
 #include "connection_list.h"
@@ -194,8 +196,88 @@ ssh_list_keepalive (struct SSH_List *p_ssh_list)
     }
 }
 
+int 
+verify_knownhost (ssh_session session)
+{
+  int state, hlen;
+  unsigned char *hash = NULL;
+  char *hexa;
+  char buf[10];
+  int result;
+  int verifyResult = 0;
+  gboolean add_to_known_hosts = FALSE;
+
+  state = ssh_is_server_known (session);
+
+  hlen = ssh_get_pubkey_hash (session, &hash);
+
+  if (hlen < 0)
+    return -1;
+
+  switch (state) {
+    case SSH_SERVER_KNOWN_OK:
+      break; /* ok */
+
+    case SSH_SERVER_KNOWN_CHANGED:
+      hexa = ssh_get_hexa (hash, hlen);
+      /*fprintf(stderr, "Host key for server changed: it is now:\n");
+      ssh_print_hexa("Public key hash", hash, hlen);
+      fprintf(stderr, "For security reasons, connection will be stopped\n");*/
+
+      result = msgbox_yes_no ("Host key for server changed.\n"
+                              "The new key is:\n\n"
+                              "%s\n\n"
+                              "Do you trust the host key?", hexa);
+
+      //free (hash);
+
+      if (result == GTK_RESPONSE_YES) 
+        add_to_known_hosts = TRUE;
+      else 
+        verifyResult = -1;
+
+      break;
+
+    case SSH_SERVER_FOUND_OTHER:
+    case SSH_SERVER_FILE_NOT_FOUND:
+    case SSH_SERVER_NOT_KNOWN:
+      hexa = ssh_get_hexa(hash, hlen);
+
+      result = msgbox_yes_no ("The server is unknown.\n"
+                              "Do you trust the host key?\n\n"
+                              "%s\n", hexa);
+
+      if (result == GTK_RESPONSE_YES) 
+        add_to_known_hosts = TRUE;
+      else
+        verifyResult = -1;
+
+      break;
+
+    case SSH_SERVER_ERROR:
+      msgbox_error ("%s", ssh_get_error(session));
+      free (hash);
+      return -1;
+  }
+
+  if (hash)
+    free (hash);
+
+  if (add_to_known_hosts) {
+    log_write ("Adding key to known hosts... \n");
+
+    if (ssh_write_knownhost(session) < 0) {
+      msgbox_error ("%s\n", strerror (errno));
+      return -1;
+    }
+  }
+
+  return (verifyResult);
+}
+
 /**
- * ssh_node_connect() - connect to server and add node to list
+ * Connect to server and add node to list.
+ * Reuse an existing node if present.
  */
 struct SSH_Node *
 ssh_node_connect (struct SSH_List *p_ssh_list, struct SSH_Auth_Data *p_auth)
@@ -209,6 +291,8 @@ ssh_node_connect (struct SSH_List *p_ssh_list, struct SSH_Auth_Data *p_auth)
   
   memset (&node, 0, sizeof (struct SSH_Node));
   
+  /* Check if there is an active node with the same user and host */
+
   if (p_node = ssh_list_search (p_ssh_list, p_auth->host, p_auth->user))
     {
       log_write ("Found ssh node for %s@%s\n", p_auth->user, p_auth->host);
@@ -221,28 +305,25 @@ ssh_node_connect (struct SSH_List *p_ssh_list, struct SSH_Auth_Data *p_auth)
           return (NULL);
         }
         
-      /* check node validity */
+      /* Check node validity */
       
-      //if (valid)
-      //  {
-          ssh_channel c;
+      ssh_channel c;
+      
+      log_write ("Tryng to open a channel on %s@%s\n", p_auth->user, p_auth->host);
+      
+      sftp_spinner_refresh ();
+      
+      if (c = ssh_node_open_channel (p_node))
+        {
+          log_write ("Channel successfully opened, close it and return\n");
           
-          log_write ("Tryng to open a channel on %s@%s\n", p_auth->user, p_auth->host);
-          
-          sftp_spinner_refresh ();
-          
-          if (c = ssh_node_open_channel (p_node))
-            {
-              log_write ("Channel successfully opened, close it and return\n");
-              
-              ssh_channel_close (c);
-              ssh_channel_free (c);
-              ssh_node_ref (p_node);
-              return (p_node);
-            }
-          else
-            valid = 0;
-      //  }
+          ssh_channel_close (c);
+          ssh_channel_free (c);
+          ssh_node_ref (p_node);
+          return (p_node);
+        }
+      else
+        valid = 0;
     
       if (!valid) {
         log_write ("Not a valid node for to %s@%s, recreate it\n", p_auth->user, p_auth->host);
@@ -275,15 +356,22 @@ ssh_node_connect (struct SSH_List *p_ssh_list, struct SSH_Auth_Data *p_auth)
       return (NULL);
     }
     
-  // Verify the server's identity
-  /*
-  if (verify_knownhost (my_ssh_session) < 0)
+  log_write ("Verifying the server's identity...\n");
+
+  if (verify_knownhost (node.session) < 0)
     {
-      ssh_disconnect (my_ssh_session);
-      ssh_free (my_ssh_session);
-      exit(-1);
+      log_write ("Host refused\n");
+
+      p_auth->error_code = SSH_ERR_HOST_NOT_VERIFIED;
+      sprintf (p_auth->error_s, "Host not verified: %s\n", p_auth->host);
+
+      ssh_disconnect (node.session);
+      ssh_free (node.session);
+
+      return (NULL);
     }
-  */
+
+  log_write ("Host verified\n");
 
 l_auth:    
   sftp_set_status ("Authenticating %s@%s...", p_auth->user, p_auth->host);
@@ -709,96 +797,7 @@ lt_ssh_init (struct SSH_Info *p_ssh)
 {
   memset (p_ssh, 0, sizeof (struct SSH_Info));
 }
-/*
-int
-lt_ssh_connect_old (struct SSH_Info *p_ssh)
-{
-  int rc;
-  
-  // Open session and set options
-  p_ssh->ssh_node->session = ssh_new ();
-  
-  if (p_ssh->ssh_node->session == NULL)
-    return (1);
-  
-  ssh_options_set (p_ssh->ssh_node->session, SSH_OPTIONS_HOST, p_ssh->host);
-  ssh_options_set (p_ssh->ssh_node->session, SSH_OPTIONS_USER, p_ssh->user);
-  ssh_options_set (p_ssh->ssh_node->session, SSH_OPTIONS_PORT, &(p_ssh->port));
-  
-  // Connect to server
-  rc = ssh_connect (p_ssh->ssh_node->session);
-  
-  if (rc != SSH_OK)
-    {
-      sprintf(p_ssh->error_s, "%s", ssh_get_error (p_ssh->ssh_node->session));
-      ssh_free (p_ssh->ssh_node->session);
-      p_ssh->ssh_node->session = NULL;
-      return (SSH_ERR_CONNECT);
-    }
-    
-  // Verify the server's identity
-  \*
-  if (verify_knownhost (my_ssh_session) < 0)
-    {
-      ssh_disconnect (my_ssh_session);
-      ssh_free (my_ssh_session);
-      exit(-1);
-    }
-  *\
-    
-  // Authenticate ourselves
-  
-  \* get authentication methods *\
-  p_ssh->auth_methods = ssh_userauth_list (p_ssh->ssh_node->session, NULL);
-  
-  if (p_ssh->auth_methods & SSH_AUTH_METHOD_PASSWORD)
-    {
-      rc = ssh_userauth_password (p_ssh->ssh_node->session, NULL, p_ssh->password);
-      
-      log_debug ("auth method password: rc=%d\n", rc);
-    }
-  else if (p_ssh->auth_methods & SSH_AUTH_METHOD_INTERACTIVE)
-    {
-      rc = ssh_userauth_kbdint (p_ssh->ssh_node->session, NULL, NULL);
-      
-      log_debug ("auth method interactive: ssh_userauth_kbdint() returns %d\n", rc);
-      
-      if (rc == SSH_AUTH_INFO)
-        {
-          ssh_userauth_kbdint_setanswer (p_ssh->ssh_node->session, 0, p_ssh->password);
 
-          rc = ssh_userauth_kbdint (p_ssh->ssh_node->session, NULL, NULL); 
-          
-          log_debug ("auth method interactive: ssh_userauth_kbdint() returns %d\n", rc);
-        }
-      else
-        rc = SSH_AUTH_ERROR;
-
-      log_debug ("auth method interactive: rc=%d\n", rc);
-    }
-  else
-    {
-      sprintf (p_ssh->error_s, "unknown authentication method for server %s\n", p_ssh->host);
-      ssh_disconnect (p_ssh->ssh_node->session);
-      ssh_free (p_ssh->ssh_node->session);
-      p_ssh->ssh_node->session = NULL;
-      return (SSH_ERR_AUTH);
-    }
-  
-  if (rc != SSH_AUTH_SUCCESS)
-    {
-      sprintf (p_ssh->error_s, "%s", ssh_get_error (p_ssh->ssh_node->session));
-      ssh_disconnect (p_ssh->ssh_node->session);
-      ssh_free (p_ssh->ssh_node->session);
-      p_ssh->ssh_node->session = NULL;
-      return (SSH_ERR_AUTH);
-    }
-    
-  lt_ssh_getenv (p_ssh, "HOME", p_ssh->home);
-    
-  return (0);
-}
-*/
 int
 lt_ssh_connect (struct SSH_Info *p_ssh, struct SSH_List *p_ssh_list, struct SSH_Auth_Data *p_auth)
 {

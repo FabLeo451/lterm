@@ -1,5 +1,16 @@
 # Release changes
 
+lterm 1.5.2 (?? ?? ????)
+---------------------------------
+
+Changes:
+  - When connecting via SSH, host identity check messages are shown in the gui, not inside the temrinal.
+  - SFTP buffer size no more limited to 1024 KB.
+
+Bug fixes:
+  - Terminal splitting: sometimes detatched tab takes all the available space.
+  - Remote files saving: infinite loop if saving fails.
+
 lterm 1.5.1 (22 12 2017)
 ---------------------------------
 

@@ -44,7 +44,7 @@ char *des_decrypt_b64 (char *ecrypted_text);
 void des_decrypt_b64_2 (char *ecrypted_text, char *clear_text);
 char *shortenString (char *original, int threshold, char *shortened);
 int file_exists (char *filename);
-char *readFile (filename);
+char *readFile (char *filename);
 
 #endif
 

@@ -15,7 +15,8 @@
 #ifdef DEBUG
 void setCurrentFunction (char *);
 char * getCurrentFunction ();
-#define log_debug(format, ...) { log_write ("[%s] "format, __func__, ##__VA_ARGS__); }
+//#define log_debug(format, ...) { log_write ("[%s] "format, __func__, ##__VA_ARGS__); }
+#define log_debug(format, ...) { printf ("[%s] [%d] [%s] ", __FILE__, __LINE__, __func__); printf (format, ##__VA_ARGS__); }
 #define ENTER_FUNC() { setCurrentFunction (__func__); }
 #else
 //#define _DBG_printf(format, ...)

@@ -2958,6 +2958,8 @@ terminal_detach (GtkOrientation orientation)
 {
   struct ConnectionTab *currentTab;
 
+  log_debug ("\n");
+
  /* if (!p_current_connection_tab)
     return;*/
 
@@ -3010,7 +3012,7 @@ terminal_detach (GtkOrientation orientation)
 
   // Add the new paned window to the main one
   if (parent == hpaned)
-    gtk_paned_add2(GTK_PANED(hpaned), hpaned_split); // First division
+    gtk_paned_add2(GTK_PANED(hpaned), hpaned_split); // First split
   else
     gtk_paned_add1(GTK_PANED(parent), hpaned_split);
 
@@ -3020,11 +3022,13 @@ terminal_detach (GtkOrientation orientation)
   GtkAllocation allocation;
   gtk_widget_get_allocation (hpaned_split, &allocation);
 
-  log_debug ("naturalSize.width = %d\n", allocation.width);
-  log_debug ("naturalSize.height = %d\n", allocation.height);
+  log_debug ("Paned width = %d\n", allocation.width);
+  log_debug ("Paned height = %d\n", allocation.height);
 
-  gtk_paned_set_position (GTK_PANED(hpaned_split), 
-                          orientation == GTK_ORIENTATION_HORIZONTAL ? allocation.width/2 : allocation.height/2);
+  /* Width and Height are sometimes = 1. In that case don't set bar position */
+  if (allocation.width > 1 && allocation.height > 1)
+    gtk_paned_set_position (GTK_PANED(hpaned_split), 
+                            orientation == GTK_ORIENTATION_HORIZONTAL ? allocation.width/2 : allocation.height/2);
 
   switch_tab_enabled = TRUE;
 }

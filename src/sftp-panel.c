@@ -800,10 +800,13 @@ saveMirrorFile (SMirrorFile *mf)
   
   if (rc == 0) {
     log_write ("Uploaded %d bytes\n", ti.worked);
-    mf->lastSaved = time(NULL);
+    //mf->lastSaved = time(NULL); // updating only here makes an infinite loop trying to save file on failure
   }
   else
     msgbox_error ("Unable to save file:\n%s", mf->localFile);
+    
+  /* Update anyway to avoid infinite loop */
+  mf->lastSaved = time(NULL);
       
   //transfer_window_close ();
   
@@ -1666,50 +1669,7 @@ refresh_panel_history ()
     }
   }
 }
-/*
-void
-sftp_connect_cb (GtkButton *button, gpointer user_data)
-{
-  int rc;
-  struct ConnectionTab *p_conn_tab;
-  struct SSH_Auth_Data auth;
-  
-  if ((p_conn_tab = get_current_connection_tab ()) == NULL)
-    return;
-    
-  if (lt_ssh_is_connected (&p_conn_tab->ssh_info))
-    return;
-\*
-  lt_ssh_init (&p_conn_tab->ssh_info);
 
-  strcpy (auth.user, p_conn_tab->connection.user);
-  strcpy (auth.password, p_conn_tab->connection.password);
-  strcpy (auth.host, p_conn_tab->connection.host);
-  auth.port = 22;
-
-  log_write ("ssh connecting to %s@%s:%d\n", auth.user, auth.host, auth.port);
-
-  if (lt_ssh_connect (&p_conn_tab->ssh_info, &globals.ssh_list, &auth) != 0)
-    {
-      msgbox_error (p_conn_tab->ssh_info.error_s);
-      return;
-    }
-  
-  if (lt_sftp_create (&p_conn_tab->ssh_info) != 0)
-    {
-      msgbox_error (p_conn_tab->ssh_info.error_s);
-      return;
-    }
-    
-  log_write ("connected\n");
-  
-  if (sftp_refresh_directory_list (p_ssh_current) != 0)
-    msgbox_error ("can't read directory\n%s", p_ssh_current->directory);
-    
-  refresh_sftp_panel (&p_conn_tab->ssh_info);
-*\
-}
-*/
 void
 sftp_panel_change_directory (char *path)
 {
@@ -2225,7 +2185,7 @@ sftp_onPopupMenu (GtkWidget *treeview, gpointer userdata)
 static void
 combo_change_position_cb (GtkWidget *entry, gpointer user_data)
 {
-  log_debug ("position_selected_tearoff=%d\n", (int) sftp_panel.position_selected_tearoff);
+  //log_debug ("position_selected_tearoff=%d\n", (int) sftp_panel.position_selected_tearoff);
   
   if (sftp_panel.position_selected_tearoff == FALSE)
     return;

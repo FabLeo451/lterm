@@ -1,4 +1,29 @@
 
+2018-11-04 Fabio Leone <fab.leo@gmail.com>
+
+  * data/preferences.glade
+    Adjustement adj_buffer: max value set to a very big value
+    
+2018-10-31 Fabio Leone <fab.leo@gmail.com>
+
+  * sftp-panel.c
+    (saveMirrorFile): update always "lastSaved" to avoid infinite loop trying to save file on failure
+  
+2018-10-24 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (terminal_detach): Width and height of new paned widget are sometimes = 1 (from gtk_widget_get_allocation). 
+                       In that case don't set bar position.
+
+2018-10-23 Fabio Leone <fab.leo@gmail.com>
+
+  * ssh.c
+    (verify_knownhost): added
+    (ssh_node_connect): verify host calling verify_knownhost()
+
+  * terminal.c
+    (log_on): Don't do other attempts on SSH_ERR_HOST_NOT_VERIFIED
+
 2017-12-23 Fabio Leone <fab.leo@gmail.com>
 
   * 1.5.1 Release

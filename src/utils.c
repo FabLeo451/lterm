@@ -1005,7 +1005,7 @@ get_system (char *sys_name)
 }
 
 char *
-readFile (filename)
+readFile (char *filename)
 {
   char * buffer = 0;
   long length;
