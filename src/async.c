@@ -64,16 +64,12 @@ void
 lockSFTPQueue (char *caller, gboolean flagLock)
 {
   if (flagLock) {
-    //log_debug ("[%s] locking SFTP queue mutex...\n", caller);
+    log_debug ("[%s] locking SFTP queue mutex...\n", caller);
     pthread_mutex_lock (&mutexSFTPQueue);
-    //g_mutex_lock (&mutexSFTPQueue);
-    //log_debug ("[%s] queue locked\n", caller);
   }
   else {
-    //log_debug ("[%s] unlocking SFTP queue mutex...\n", caller);
+    log_debug ("[%s] unlocking SFTP queue mutex...\n", caller);
     pthread_mutex_unlock (&mutexSFTPQueue);
-    //g_mutex_unlock (&mutexSFTPQueue);
-    //log_debug ("%s unlocked\n", caller);
   }
 }
 

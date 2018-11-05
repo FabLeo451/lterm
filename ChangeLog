@@ -1,4 +1,12 @@
 
+2018-11-05 Fabio Leone <fab.leo@gmail.com>
+
+  * transfer_window.c
+    (transfer_window_refresh): express speed in KB/sec., not MB/sec.
+
+  * sftp_panel.c
+    (sftp_copy_file_download): Use an internal buffer to store blocks of 64K until n bytes read. Then write local data n bytes at once.
+
 2018-11-04 Fabio Leone <fab.leo@gmail.com>
 
   * data/preferences.glade

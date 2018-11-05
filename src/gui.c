@@ -5478,7 +5478,9 @@ terminal_focus_cb (GtkWidget *widget,
   if (p_current_connection_tab == newTab)
     return;
 
-  log_debug("%s\n", vte_terminal_get_window_title (VTE_TERMINAL(newTab->vte)));
+  log_debug("%s %s\n", gtk_label_get_text (newTab->label), newTab->vte ? "VTE OK" : "VTE KO");
+
+  //log_debug("%s\n", vte_terminal_get_window_title (VTE_TERMINAL(newTab->vte)));
 
   p_current_connection_tab = newTab;
   update_by_tab(p_current_connection_tab);

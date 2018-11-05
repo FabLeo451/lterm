@@ -345,12 +345,14 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
   int nbytes, nwritten, rc;
   int fd;
   sftp_attributes attr;
+  
+  int blockReadSize = 65536; // Max block size for libssh
+  int blockCurrentSize = 0;
 
   log_debug ("From: %s\n", p_ti->source);
   log_debug ("To: %s\n", p_ti->destination);
 
-  ////////////////////////////////////
-  lockSSH (__func__, TRUE);
+  LOCK_SSH
 
   log_write ("Opening remote file for reading: %s\n", p_ti->source);
 
@@ -360,8 +362,7 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
 
   file = sftp_open (sftp, p_ti->source, access_type, 0);
 
-  lockSSH (__func__, FALSE);
-  ////////////////////////////////////
+  UNLOCK_SSH
 
   if (timedOut ()) {
     log_write ("Timeout!\n");
@@ -382,13 +383,11 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
 
   p_ti->size = attr->size;
 
-  ////////////////////////////////////
-  lockSSH (__func__, TRUE);
+  LOCK_SSH
 
   sftp_attributes_free (attr);
 
-  lockSSH (__func__, FALSE);
-  ////////////////////////////////////
+  UNLOCK_SSH
 
   log_debug ("Size: %lld\n", p_ti->size);
 
@@ -401,52 +400,59 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
       return (transfer_set_error (p_ti, 2, "Can't open file for writing:\n%s", p_ti->destination));
     }
 
-  //while (g_transfer)
   while (p_ti->state == TR_IN_PROGRESS)
     {
-      ////////////////////////////////////
-      lockSSH (__func__, TRUE);
+      blockCurrentSize = 0;
 
-      //log_debug ("reading (buffer size=%d %d)...\n", prefs.sftp_buffer, (int) sizeof (buffer));
-      nbytes = sftp_read (file, buffer, sizeof (buffer));
-      //log_debug ("nbytes=%d\n", nbytes);
+      LOCK_SSH
 
-      lockSSH (__func__, FALSE);
-      ////////////////////////////////////
+      /* Read n blocks of 64K untill we reach our buffer size for writing */
+      do
+        {
+          //nbytes = sftp_read (file, buffer, sizeof (buffer));
+          nbytes = sftp_read (file, &buffer[blockCurrentSize], blockReadSize);
+          
+          if (nbytes <= 0)
+            break;
+            
+          blockCurrentSize += nbytes;
+          
+          log_debug ("Bytes read: %d (%d / %d)\n", nbytes, blockCurrentSize, prefs.sftp_buffer);
+        }
+      while (nbytes && blockCurrentSize < prefs.sftp_buffer);
+
+      UNLOCK_SSH
 
       if (nbytes == 0) 
         {
-          break; // EOF
+          p_ti->state = TR_COMPLETED;
+          //break; // EOF
         } 
       else if (nbytes < 0) 
         {
           return (transfer_set_error (p_ti, 2, "Error while reading\n%s", p_ti->source));
         }
+        
+      log_debug ("Writing buffer: %d / %d\n", blockCurrentSize, prefs.sftp_buffer);
 
-      nwritten = write (fd, buffer, nbytes);
-
-      if (nwritten != nbytes)
+      //nwritten = write (fd, buffer, nbytes);
+      nwritten = write (fd, buffer, blockCurrentSize);
+      
+      if (nwritten != blockCurrentSize)
         {
           return (transfer_set_error (p_ti, 3, "Error while writing\n%s", p_ti->destination));
         }
+        
+      log_debug ("Bytes written: %d\n", nwritten);
 
       p_ti->worked += nwritten;
-
-      //log_debug ("%d / %d\n", p_ti->worked, p_ti->size);
-/*
-      if (p_ti->worked % SFTP_PROGRESS == 0)
-        transfer_window_update (p_ti);
-*/
-//usleep (1000);
     }
 
-  //////////////////////////////
-  lockSSH (__func__, TRUE);
+  LOCK_SSH
 
   sftp_close (file);
 
-  lockSSH (__func__, FALSE);
-  //////////////////////////////
+  UNLOCK_SSH
 
   close (fd);
   
@@ -3001,7 +3007,7 @@ sftp_queue_count (int *nUp, int *nDown)
     (*nDown) = 0;
 
   if (!sftp_panel.queue)
-    return;
+    return 0;
 
   //pthread_mutex_lock (&sftp_panel.mutexQueue);
   lockSFTPQueue (__func__, TRUE);

@@ -659,7 +659,8 @@ transfer_window_refresh ()
     if (pTi->state == TR_IN_PROGRESS)
       {
         elapsed = difftime (current_time, pTi->start_time);
-        sprintf (speed, "%.1f MB/sec.", elapsed > 0.0 ? (float) pTi->worked / (elapsed * 1024.0 * 1024.0) : 0.0);
+        //sprintf (speed, "%.1f MB/sec.", elapsed > 0.0 ? (float) pTi->worked / (elapsed * 1024.0 * 1024.0) : 0.0);
+        sprintf (speed, "%.1f KB/sec.", elapsed > 0.0 ? (float) pTi->worked / (elapsed * 1024.0) : 0.0);
 
         if (pTi->sourceIsDir) {
           strcpy (time_left, "unknown");
