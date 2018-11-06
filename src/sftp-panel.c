@@ -346,7 +346,7 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
   int fd;
   sftp_attributes attr;
   
-  //int blockReadSize = 65536; // Max block size for libssh
+  unsigned int n_blocks_read = 0;
   int blockCurrentSize = 0;
 
   log_debug ("From: %s\n", p_ti->source);
@@ -389,7 +389,7 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
 
   UNLOCK_SSH
 
-  log_debug ("Size: %lld\n", p_ti->size);
+  log_write ("%s is %lld bytes\n", p_ti->source, p_ti->size);
 
   fd = open (p_ti->destination, O_WRONLY|O_CREAT|O_TRUNC,
              S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
@@ -407,6 +407,9 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
       LOCK_SSH
 
       /* Read n blocks of 64K untill we reach our buffer size for writing */
+      
+      log_write ("Buffering remote file %s ...\n", p_ti->source);
+      
       do
         {
           //nbytes = sftp_read (file, buffer, sizeof (buffer));
@@ -421,7 +424,7 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
           
           log_debug ("Bytes read: %d (%d / %d)\n", nbytes, blockCurrentSize, prefs.sftp_buffer);
         }
-      while (nbytes && blockCurrentSize < prefs.sftp_buffer);
+      while (blockCurrentSize < prefs.sftp_buffer);
 
       UNLOCK_SSH
 
@@ -437,8 +440,11 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
         }
         
       if (blockCurrentSize) {
-        // Write buffer has data    
-        log_debug ("Writing buffer: %d / %d\n", blockCurrentSize, prefs.sftp_buffer);
+        // Write buffer has data 
+
+        n_blocks_read ++;
+           
+        log_write ("Writing local file %s (%d bytes)...\n", p_ti->destination, blockCurrentSize);
 
         //nwritten = write (fd, buffer, nbytes);
         nwritten = write (fd, buffer, blockCurrentSize);
@@ -465,7 +471,16 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
   if (p_ti->result == 0)
     p_ti->state = TR_COMPLETED;
 
-  log_debug ("Donwloaded: %d bytes\n", p_ti->worked);
+  log_write ("\nDownload report:\n"
+             " Host:          %s\n"
+             " Source:        %s\n"
+             " Destination:   %s\n"
+             " Original size: %8lld\n"
+             " Local size:    %8lld\n"
+             " Buffer size:   %d\n"
+             " Buffer blocks: %d\n"
+             " Result code:   %d\n",
+             p_ti->host, p_ti->source, p_ti->destination, p_ti->size, p_ti->worked, prefs.sftp_buffer, n_blocks_read, p_ti->result);
 
   return (p_ti->result);
 }

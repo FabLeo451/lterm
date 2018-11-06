@@ -107,6 +107,9 @@ terminal_new (struct ConnectionTab *p_connection_tab, char *directory)
     strcpy (error_msg, error->message);
 #endif
 
+  if (success)
+    log_write ("VTE process created: %d\n", p_connection_tab->pid);
+
   return (success);
 }
 
@@ -423,11 +426,7 @@ log_on (struct ConnectionTab *p_conn_tab)
       tabSetConnectionStatus (p_conn_tab, TAB_CONN_STATUS_CONNECTED);
       p_conn_tab->type = CONNECTION_REMOTE;
 
-      /*if (lt_ssh_is_connected (&p_conn_tab->ssh_info))
-        {
-          sftp_refresh_directory_list (&p_conn_tab->ssh_info);
-          //refresh_sftp_panel (&p_conn_tab->ssh_info);
-        }*/
+      log_write ("VTE process created: %d\n", p_conn_tab->pid);
       
       rc = 0;
     }
