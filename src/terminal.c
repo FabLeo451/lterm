@@ -542,6 +542,9 @@ get_remote_directory_from_vte_title (GtkWidget *vte)
   strcpy (directory, "");
   
   title = (char *) vte_terminal_get_window_title (VTE_TERMINAL(vte));
+  
+  log_debug ("title = %s\n", title);
+  //log_debug ("icon_title = %s\n", vte_terminal_get_icon_title (VTE_TERMINAL(vte)));
 
   if (title)
     {

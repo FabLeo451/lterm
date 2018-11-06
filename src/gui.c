@@ -5586,6 +5586,8 @@ apply_profile_terminal (GtkWidget *terminal, struct Profile *p_profile)
   GdkRGBA fg, bg;
   gdk_rgba_parse (&fg, p_profile->fg_color);
   gdk_rgba_parse (&bg, p_profile->bg_color);
+    //bg.alpha = 0.40;
+
   //GdkRGBA fg={0, 255, 0, 1}, bg={0, 0, 0, 1};
   //bg.alpha = p_profile->alpha;
 #if (VTE_CHECK_VERSION(0,38,3) == 1)

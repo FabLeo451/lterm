@@ -3,7 +3,7 @@
 /* nome del pacchetto */
 #define PACKAGE "lterm"
 /* versione */
-#define VERSION "1.5.1"
+#define VERSION "1.5.2-test1"
 
 
 /* Define to 1 if you have the `alarm' function. */
@@ -86,7 +86,7 @@
 #define PACKAGE_NAME "lterm"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "lterm 1.5.1"
+#define PACKAGE_STRING "lterm 1.5.2-test1"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "lterm"
@@ -95,7 +95,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.5.1"
+#define PACKAGE_VERSION "1.5.2-test1"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -104,7 +104,7 @@
 #define TIME_WITH_SYS_TIME 1
 
 /* Version number of package */
-#define VERSION "1.5.1"
+#define VERSION "1.5.2-test1"
 
 /* Define to rpl_malloc if the replacement function should be used. */
 /* #undef malloc */

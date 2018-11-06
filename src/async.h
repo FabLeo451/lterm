@@ -5,7 +5,10 @@
 #include <gtk/gtk.h>
 #include "sftp-panel.h"
 
-void lockSFTP (char *caller, gboolean flagLock);
+#define LOCK_SSH lockSSH(__func__, TRUE);
+#define UNLOCK_SSH lockSSH(__func__, FALSE);
+
+void lockSSH (char *caller, gboolean flagLock);
 void lockSFTPQueue (char *caller, gboolean flagLock);
 
 void asyncInit();

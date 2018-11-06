@@ -9,6 +9,9 @@
 #define SFTP_ACTION_UPLOAD 1
 #define SFTP_ACTION_DOWNLOAD 2
 
+/* Maximun buffer size for sftp_read() */
+#define SFTP_BUFFER_SIZE 65536
+
 //#define SFTP_BUFFER_SIZE 1*1024
 #define SFTP_PROGRESS 1024*1024
 

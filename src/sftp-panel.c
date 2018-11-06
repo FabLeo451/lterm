@@ -346,7 +346,7 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
   int fd;
   sftp_attributes attr;
   
-  int blockReadSize = 65536; // Max block size for libssh
+  //int blockReadSize = 65536; // Max block size for libssh
   int blockCurrentSize = 0;
 
   log_debug ("From: %s\n", p_ti->source);
@@ -410,7 +410,9 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
       do
         {
           //nbytes = sftp_read (file, buffer, sizeof (buffer));
-          nbytes = sftp_read (file, &buffer[blockCurrentSize], blockReadSize);
+          nbytes = sftp_read (file, &buffer[blockCurrentSize], SFTP_BUFFER_SIZE);
+          
+          //log_debug ("nbytes = %d\n", nbytes);
           
           if (nbytes <= 0)
             break;
@@ -425,27 +427,31 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
 
       if (nbytes == 0) 
         {
+          // EOF
           p_ti->state = TR_COMPLETED;
-          //break; // EOF
         } 
       else if (nbytes < 0) 
         {
+          // Error
           return (transfer_set_error (p_ti, 2, "Error while reading\n%s", p_ti->source));
         }
         
-      log_debug ("Writing buffer: %d / %d\n", blockCurrentSize, prefs.sftp_buffer);
+      if (blockCurrentSize) {
+        // Write buffer has data    
+        log_debug ("Writing buffer: %d / %d\n", blockCurrentSize, prefs.sftp_buffer);
 
-      //nwritten = write (fd, buffer, nbytes);
-      nwritten = write (fd, buffer, blockCurrentSize);
-      
-      if (nwritten != blockCurrentSize)
-        {
-          return (transfer_set_error (p_ti, 3, "Error while writing\n%s", p_ti->destination));
-        }
+        //nwritten = write (fd, buffer, nbytes);
+        nwritten = write (fd, buffer, blockCurrentSize);
         
-      log_debug ("Bytes written: %d\n", nwritten);
+        if (nwritten != blockCurrentSize)
+          {
+            return (transfer_set_error (p_ti, 3, "Error while writing\n%s", p_ti->destination));
+          }
+          
+        log_debug ("Bytes written: %d\n", nwritten);
 
-      p_ti->worked += nwritten;
+        p_ti->worked += nwritten;
+      }
     }
 
   LOCK_SSH
@@ -455,8 +461,6 @@ sftp_copy_file_download (sftp_session sftp, struct TransferInfo *p_ti)
   UNLOCK_SSH
 
   close (fd);
-  
-  //transfer_window_update (p_ti);
 
   if (p_ti->result == 0)
     p_ti->state = TR_COMPLETED;
