@@ -5939,10 +5939,12 @@ start_gtk (int argc, char **argv)
       profile_modify_string (PROFILE_SAVE, globals.conf_file, "general", "package_version", VERSION);
       msgbox_info ("Congratulations, you just upgraded to version %s", VERSION);
 
-      if (!cmpver (VERSION, "1.4.1"))
+      if (!cmpver (VERSION, "1.5.2"))
         {
-          if (prefs.sftp_buffer < 128*1024)
-            prefs.sftp_buffer = 128*1024;
+          log_write ("Upgrading to 1.5.2. Set sftp buffer to 512KB");
+          
+          if (prefs.sftp_buffer < SFTP_BUFFER_SIZE * 2)
+            prefs.sftp_buffer = SFTP_BUFFER_SIZE * 2;
         }
     }
 

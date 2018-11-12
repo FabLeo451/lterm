@@ -758,7 +758,7 @@ load_settings ()
   prefs.show_sidebar = profile_load_int (globals.conf_file, "GUI", "show_sidebar", 1);
   profile_load_string (globals.conf_file, "GUI", "font_quick_launch_window", prefs.font_quick_launch_window, "Sans 9");
 
-  prefs.sftp_buffer = profile_load_int (globals.conf_file, "SFTP", "sftp_buffer", 128*1024);
+  prefs.sftp_buffer = profile_load_int (globals.conf_file, "SFTP", "sftp_buffer", SFTP_BUFFER_SIZE * 2);
   prefs.flag_ask_download = profile_load_int (globals.conf_file, "SFTP", "flag_ask_download", 1);
   profile_load_string (globals.conf_file, "SFTP", "download_directory", prefs.download_dir, "");
   
