@@ -7,12 +7,15 @@ New features:
   - Terminal background image and transparency.
   
 Changes:
-  - When connecting via SSH, host identity check messages are shown in the gui, not inside the temrinal.
+  - When connecting via SSH, host identity check messages are shown in a graphic dialog window, 
+    not inside the temrinal.
   - SFTP speed increased.
   - SFTP speed expressed in KB/sec. instead of MB/sec.
 
-Bug fixes:
+Bug fixes (minor):
   - Terminal splitting: sometimes detatched tabs take all the available space.
+
+Bug fixes (major):
   - Remote files saving: infinite loop if saving fails.
 
 lterm 1.5.1 (22 12 2017)

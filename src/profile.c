@@ -717,6 +717,27 @@ load_profiles (struct ProfileList *p_pl, char *filename)
                   if (tmp_s[0])
                     profile.alpha = atof (tmp_s);
                 }
+                
+              if (child = xml_node_get_child (node_2, "image"))
+                {
+                  strcpy (tmp_s, xml_node_get_attribute (child, "enabled"));
+                  profile.bg_image_enabled = tmp_s[0] == '0' ? 0 : 1;
+                  
+                  if (xml_node_get_value (child))
+                    profile.bg_image_filename = strdup (xml_node_get_value (child));
+                  else
+                    profile.bg_image_filename = NULL;
+
+                  if (profile.bg_image_filename) {
+                    GError *error = NULL;
+                    
+                    log_write ("Loading background image: %s\n", profile.bg_image_filename);
+                    profile.bg_image_pixbuf = gdk_pixbuf_new_from_file (profile.bg_image_filename, &error);
+                    
+                    if (profile.bg_image_pixbuf == NULL)
+                      log_write ("%s\n", error->message);
+                  }
+                }
             }
            
           if (node_2 = xml_node_get_child (node, "cursor"))

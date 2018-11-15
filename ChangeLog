@@ -1,4 +1,13 @@
 
+2018-11-15 Fabio Leone <fab.leo@gmail.com>
+
+  * profile.h
+    Added in struct Profile:
+      int alpha_enabled;
+      int bg_image_enabled;
+      char *bg_image_filename;
+      GdkPixbuf *bg_image_pixbuf;
+  
 2018-11-14 Fabio Leone <fab.leo@gmail.com>
 
   * gui.c
