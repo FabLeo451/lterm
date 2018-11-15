@@ -1075,4 +1075,13 @@ terminal_set_font_from_string (VteTerminal *vte, const char *font)
   vte_terminal_set_font (vte, font_desc);
 }
 
+gboolean
+terminal_draw_cb (GtkWidget *widget,
+                  cairo_t *cr,
+                  gpointer user_data)
+{
+  //log_debug ("\n");
+  
+  return FALSE;
+}
 

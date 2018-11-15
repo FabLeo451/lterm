@@ -707,6 +707,9 @@ load_profiles (struct ProfileList *p_pl, char *filename)
                 
               if (child = xml_node_get_child (node_2, "alpha"))
                 {
+                  strcpy (tmp_s, xml_node_get_attribute (child, "enabled"));
+                  profile.alpha_enabled = tmp_s[0] == '0' ? 0 : 1;
+                
                   strcpy (tmp_s, NVL(xml_node_get_value (child), ""));
                   
                   //if (pc = strchr (tmp_s, ',')) *pc = '.';
@@ -799,7 +802,8 @@ save_profiles (struct ProfileList *p_pl, char *filename)
                    "    <fg-color>%s</fg-color>\n"
                    "    <background>\n"
                    "      <color>%s</color>\n"
-                   "      <alpha>%.2f</alpha>\n"
+                   "      <alpha enabled=\"%d\">%.2f</alpha>\n"
+                   "      <image enabled=\"%d\">%s</image>\n"
                    "    </background>\n"
                    "    <cursor>\n"
                    "      <shape>%d</shape>\n"
@@ -811,7 +815,7 @@ save_profiles (struct ProfileList *p_pl, char *filename)
                    "    </bell>\n"
                    "  </profile>\n",
 	       p->id, p->name, p->font_use_system, p->font, p->fg_color, 
-	       p->bg_color, p->alpha,
+	       p->bg_color, p->alpha_enabled, p->alpha, p->bg_image_enabled, p->bg_image_filename ? p->bg_image_filename : "",
          p->cursor_shape, p->cursor_blinking,
          p->bell_audible, p->bell_visible);
       
@@ -834,7 +838,11 @@ profile_create_default (struct ProfileList *p_pl)
     "", /* font */
     "black", /* bg */
     "light gray", /* fg */
-    1.0, /* transparent */
+    0, // Transparency enabled
+    1.0, /* transparency */
+    0, // Background image enabled
+    NULL, // Background image file path
+    NULL, // Background image pixbuf
     0, /* cursor_shape (block) */
     1, /* cursor_blinking */
     1,

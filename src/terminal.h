@@ -27,6 +27,10 @@ void terminal_find_next ();
 void terminal_find_previous ();
 int terminal_set_encoding (SConnectionTab *pTab, const char *codeset);
 void terminal_set_font_from_string (VteTerminal *vte, const char *font);
+gboolean
+terminal_draw_cb (GtkWidget *widget,
+                  cairo_t *cr,
+                  gpointer user_data);
 
 #endif
 

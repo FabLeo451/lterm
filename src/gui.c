@@ -1194,6 +1194,7 @@ connection_tab_new ()
   g_signal_connect (connection_tab->vte, "selection-changed", G_CALLBACK (selection_changed_cb), connection_tab);
   g_signal_connect (connection_tab->vte, "contents-changed", G_CALLBACK (contents_changed_cb), connection_tab);
   g_signal_connect (connection_tab->vte, "grab-focus", G_CALLBACK (terminal_focus_cb), connection_tab);
+  g_signal_connect (G_OBJECT (connection_tab->vte), "draw", G_CALLBACK (terminal_draw_cb), connection_tab);
   
   g_signal_connect_after (connection_tab->vte, "query-tooltip", G_CALLBACK (query_tooltip_cb), NULL);
   gtk_widget_set_has_tooltip (connection_tab->vte, TRUE);
@@ -5586,10 +5587,15 @@ apply_profile_terminal (GtkWidget *terminal, struct Profile *p_profile)
   GdkRGBA fg, bg;
   gdk_rgba_parse (&fg, p_profile->fg_color);
   gdk_rgba_parse (&bg, p_profile->bg_color);
-    //bg.alpha = 0.40;
+  
+  //GdkRGBA fg={0, 1, 0, 1}, bg={0, 0, 0, 1};
+  //bg.alpha = 0.40;
 
-  //GdkRGBA fg={0, 255, 0, 1}, bg={0, 0, 0, 1};
-  //bg.alpha = p_profile->alpha;
+  bg.alpha = p_profile->alpha_enabled ? p_profile->alpha : 1.0;
+  
+  log_debug ("FG color: %s -> %0.2f %0.2f %0.2f %0.2f\n", p_profile->fg_color, fg.red, fg.green, fg.blue, fg.alpha);
+  log_debug ("BG color: %s -> %0.2f %0.2f %0.2f %0.2f alpha=%s\n", p_profile->bg_color, bg.red, bg.green, bg.blue, bg.alpha, p_profile->alpha_enabled ? "ON" : "OFF");
+  
 #if (VTE_CHECK_VERSION(0,38,3) == 1)
   vte_terminal_set_color_foreground (VTE_TERMINAL (terminal), &fg);
   vte_terminal_set_color_background (VTE_TERMINAL (terminal), &bg);
@@ -5765,9 +5771,8 @@ start_gtk (int argc, char **argv)
 
   g_screen = gtk_widget_get_screen (GTK_WIDGET (main_window));
   
-  /* check rgba capabilities */
-/*
-  \*This should be the preferred method but causes some strange problems moving notebook tabs *\
+  /* Check rgba capabilities for tranparency */
+  
   GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (main_window));
   GdkVisual *visual = gdk_screen_get_rgba_visual (screen);
   
@@ -5778,9 +5783,9 @@ start_gtk (int argc, char **argv)
     } 
   else
     {
-      log_write ("can't get visual, no rgba capabilities!\n");
+      log_write ("Can't get visual, no rgba capabilities!\n");
     }
-*/
+
   set_title (0);
 
   if (prefs.maximize)

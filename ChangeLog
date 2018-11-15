@@ -1,8 +1,14 @@
 
+2018-11-14 Fabio Leone <fab.leo@gmail.com>
+
+  * gui.c
+    (start_gtk): Check RGB capabilities (for transparency)
+    (apply_profile_terminal): Set bg.alpha
+    
 2018-11-05 Fabio Leone <fab.leo@gmail.com>
 
   * transfer_window.c
-    (transfer_window_refresh): express speed in KB/sec., not MB/sec.
+    (transfer_window_refresh): Express speed in KB/sec., not MB/sec.
 
   * sftp_panel.c
     (sftp_copy_file_download): Use an internal buffer to store blocks of 64K until n bytes read. Then write local data n bytes at once.

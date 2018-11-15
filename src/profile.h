@@ -30,7 +30,11 @@ struct Profile {
   char font[128];
   char bg_color[64];
   char fg_color[64];
+  int alpha_enabled;
   double alpha;
+  int bg_image_enabled;
+  char *bg_image_filename;
+  GdkPixbuf *bg_image_pixbuf;
   int cursor_shape;
   int cursor_blinking;
   int bell_audible;
