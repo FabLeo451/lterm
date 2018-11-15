@@ -707,8 +707,9 @@ load_profiles (struct ProfileList *p_pl, char *filename)
                 
               if (child = xml_node_get_child (node_2, "alpha"))
                 {
-                  strcpy (tmp_s, xml_node_get_attribute (child, "enabled"));
-                  profile.alpha_enabled = tmp_s[0] == '0' ? 0 : 1;
+                  char *enabled = xml_node_get_attribute (child, "enabled");
+                  profile.alpha_enabled = enabled ? enabled[0] - '0' : 0;
+                  //printf ("%s %d\n", profile.name, profile.alpha_enabled);
                 
                   strcpy (tmp_s, NVL(xml_node_get_value (child), ""));
                   
@@ -720,8 +721,8 @@ load_profiles (struct ProfileList *p_pl, char *filename)
                 
               if (child = xml_node_get_child (node_2, "image"))
                 {
-                  strcpy (tmp_s, xml_node_get_attribute (child, "enabled"));
-                  profile.bg_image_enabled = tmp_s[0] == '0' ? 0 : 1;
+                  char *enabled = xml_node_get_attribute (child, "enabled");
+                  profile.bg_image_enabled = enabled ? enabled[0] - '0' : 0;
                   
                   if (xml_node_get_value (child))
                     profile.bg_image_filename = strdup (xml_node_get_value (child));
