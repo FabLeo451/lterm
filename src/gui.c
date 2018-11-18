@@ -5584,24 +5584,33 @@ apply_profile_terminal (GtkWidget *terminal, struct Profile *p_profile)
   gdk_color_parse (p_profile->bg_color, &terminal_back_color);
   vte_terminal_set_colors (VTE_TERMINAL (terminal), &terminal_fore_color, &terminal_back_color, NULL, 0);
 #else
-  GdkRGBA fg, bg;
+  /*GdkRGBA fg, bg;
   gdk_rgba_parse (&fg, p_profile->fg_color);
   gdk_rgba_parse (&bg, p_profile->bg_color);
+  bg.alpha = p_profile->alpha_enabled ? p_profile->alpha : 1.0;*/
   
-  //GdkRGBA fg={0, 1, 0, 1}, bg={0, 0, 0, 1};
-  //bg.alpha = 0.40;
+  GdkRGBA fg={1, 1, 0, 0.5}, bg={0.2, 0.5, 0.2, 0.40};
+  /*bg.alpha = 0.40;*/
 
-  bg.alpha = p_profile->alpha_enabled ? p_profile->alpha : 1.0;
-  
-  log_debug ("FG color: %s -> %0.2f %0.2f %0.2f %0.2f\n", p_profile->fg_color, fg.red, fg.green, fg.blue, fg.alpha);
-  log_debug ("BG color: %s -> %0.2f %0.2f %0.2f %0.2f alpha=%s\n", p_profile->bg_color, bg.red, bg.green, bg.blue, bg.alpha, p_profile->alpha_enabled ? "ON" : "OFF");
-  
-#if (VTE_CHECK_VERSION(0,38,3) == 1)
+  log_debug ("[%s] FG color: %s -> %0.2f %0.2f %0.2f %0.2f\n", p_profile->name, p_profile->fg_color, fg.red, fg.green, fg.blue, fg.alpha);
+  log_debug ("[%s] BG color: %s -> %0.2f %0.2f %0.2f %0.2f alpha %s\n", p_profile->name, p_profile->bg_color, bg.red, bg.green, bg.blue, bg.alpha, p_profile->alpha_enabled ? "ON" : "OFF");
+
+/*  
+#  if (VTE_CHECK_VERSION(0,38,3) == 1)
+  // VTE version >= 0.38.3
+  log_debug ("VTE version >= 0.38.3\n");
+
   vte_terminal_set_color_foreground (VTE_TERMINAL (terminal), &fg);
   vte_terminal_set_color_background (VTE_TERMINAL (terminal), &bg);
-#else
+#  else
+  // VTE version < 0.38.3
+  log_debug ("VTE version < 0.38.3\n");
   vte_terminal_set_colors_rgba (VTE_TERMINAL (terminal), &fg, &bg, NULL, 0);
-#endif
+#  endif
+*/
+vte_terminal_set_colors (VTE_TERMINAL (terminal), &fg, &bg, NULL, 0);
+
+//gtk_widget_queue_draw (GTK_WIDGET (terminal));
 
 #endif
 
