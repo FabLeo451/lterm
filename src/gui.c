@@ -1249,6 +1249,7 @@ connection_tab_add (struct ConnectionTab *connection_tab)
 
 
   gtk_box_pack_start (GTK_BOX (connection_tab->hbox_terminal), connection_tab->vte, TRUE, TRUE, 0);
+  
   gtk_box_pack_end (GTK_BOX (connection_tab->hbox_terminal), connection_tab->scrollbar, FALSE, FALSE, 0);
   gtk_widget_show_all (connection_tab->hbox_terminal);
 
@@ -5561,7 +5562,17 @@ apply_preferences ()
     
   gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), prefs.tabs_position);
 }
-  
+/*
+#define CLR_R(x)   (((x) & 0xff0000) >> 16)
+#define CLR_G(x)   (((x) & 0x00ff00) >>  8)
+#define CLR_B(x)   (((x) & 0x0000ff) >>  0)
+#define CLR_16(x)  ((double)(x) / 0xff)
+#define CLR_GDK(x) (const GdkRGBA)  .red = CLR_16(CLR_R(x)), \
+                                    .green = CLR_16(CLR_G(x)), \
+                                    .blue = CLR_16(CLR_B(x)), \
+                                    .alpha = 0
+*/
+                                    
 void
 apply_profile_terminal (GtkWidget *terminal, struct Profile *p_profile)
 {
@@ -5608,8 +5619,36 @@ apply_profile_terminal (GtkWidget *terminal, struct Profile *p_profile)
   vte_terminal_set_colors_rgba (VTE_TERMINAL (terminal), &fg, &bg, NULL, 0);
 #  endif
 */
-vte_terminal_set_colors (VTE_TERMINAL (terminal), &fg, &bg, NULL, 0);
 
+// https://stackoverflow.com/questions/22940588/how-do-i-really-make-a-gtk-3-gtklayout-transparent-draw-theme-background
+
+vte_terminal_set_colors (VTE_TERMINAL (terminal), &fg, &bg, NULL, 0);
+  gtk_widget_set_app_paintable (GTK_WIDGET (terminal), TRUE);
+
+  //gtk_widget_set_opacity (GTK_WIDGET(terminal), 0.4);
+/*
+vte_terminal_set_colors(VTE_TERMINAL(terminal),
+    &CLR_GDK(0xffffff),
+    &(GdkRGBA)  .alpha = 0.85  ,
+    (const GdkRGBA[]) 
+        CLR_GDK(0x111111),
+        CLR_GDK(0xd36265),
+        CLR_GDK(0xaece91),
+        CLR_GDK(0xe7e18c),
+        CLR_GDK(0x5297cf),
+        CLR_GDK(0x963c59),
+        CLR_GDK(0x5E7175),
+        CLR_GDK(0xbebebe),
+        CLR_GDK(0x666666),
+        CLR_GDK(0xef8171),
+        CLR_GDK(0xcfefb3),
+        CLR_GDK(0xfff796),
+        CLR_GDK(0x74b8ef),
+        CLR_GDK(0xb85e7b),
+        CLR_GDK(0xA3BABF),
+        CLR_GDK(0xffffff)
+ , 16);
+*/
 //gtk_widget_queue_draw (GTK_WIDGET (terminal));
 
 #endif
@@ -5742,6 +5781,21 @@ configure_event_cb (GtkWindow *window, GdkEvent *event, gpointer data)
   return (FALSE);
 }
 
+void fix_visual(GtkWidget *w)
+{
+log_debug ("\n");
+    GdkScreen *screen = gtk_widget_get_screen (w);
+    GdkVisual *visual = gdk_screen_get_rgba_visual (screen);
+    gtk_widget_set_visual(w, visual);
+    //FIXME cleanup maybe
+}
+
+
+void screen_changed (GtkWidget *widget, GdkScreen *screen, gpointer user_data)
+{
+    fix_visual (widget);
+}
+
 /*
   Function: start_gtk
   Creates the main user interface
@@ -5784,6 +5838,8 @@ start_gtk (int argc, char **argv)
   
   GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (main_window));
   GdkVisual *visual = gdk_screen_get_rgba_visual (screen);
+  //gtk_widget_set_app_paintable (GTK_WIDGET (main_window), TRUE);
+  g_signal_connect(G_OBJECT (main_window), "screen-changed", G_CALLBACK(screen_changed), NULL);
   
   if (visual != NULL && gdk_screen_is_composited (screen))
     {

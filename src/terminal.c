@@ -1081,7 +1081,13 @@ terminal_draw_cb (GtkWidget *widget,
                   gpointer user_data)
 {
   //log_debug ("\n");
-  
+    double x, y, w, h;
+    cairo_clip_extents(cr, &x, &y, &w, &h);
+    cairo_set_source_rgba (cr, 1., 0., 0., 0.25); //translucent red
+    cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+    cairo_rectangle(cr, x, y, w, h);
+    cairo_fill(cr);
+
   return FALSE;
 }
 
