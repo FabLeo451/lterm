@@ -183,5 +183,6 @@ int cmpver (char *v1, char *v2);
 
 //void recent_add (char *);
 
+void lterm_iteration (void);
 
 #endif

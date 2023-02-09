@@ -37,6 +37,7 @@
 #include "main.h"
 #include "utils.h"
 #include "xml.h"
+#include "terminal.h"
 
 #define SEARCH_BY_NAME "Search by name"
 #define SEARCH_BY_HOST "Search by host"
@@ -94,6 +95,8 @@ int rows_signals_enabled = 1;
 int g_rebuilding_tree_store = 0;
 
 GtkWidget * create_connections_tree_view ();
+
+static int get_selected_connection (GtkTreeSelection *, struct Connection *);
 
 void
 connection_init_stuff ()
@@ -1116,7 +1119,7 @@ load_connections ()
 }
 
 int
-count_current_connections ()
+count_current_connections (void)
 {
   return (cl_count (&conn_list));
 }
@@ -2769,7 +2772,7 @@ create_search_by_combo ()
   return (search_by_combo);
 }
 
-int
+static int
 get_selected_connection (GtkTreeSelection *select, struct Connection *p_conn)
 {
   GtkTreeIter iter;

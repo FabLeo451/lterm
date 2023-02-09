@@ -17,5 +17,6 @@ gpointer async_lterm_loop(gpointer data);
 gboolean async_is_transferring ();
 int async_sftp_transfer (gpointer userdata);
 
-#endif
+void lockSSH (char *caller, gboolean flagLock);
 
+#endif

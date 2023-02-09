@@ -34,6 +34,8 @@
 #include <vte/vte.h>
 #include <libssh/libssh.h> 
 #include <libssh/callbacks.h>
+#include <X11/Xlib.h>
+#include <libintl.h>
 #include <pwd.h>
 #include "main.h"
 #include "gui.h"
@@ -45,6 +47,7 @@
 #include "utils.h"
 #include "config.h"
 #include "async.h"
+#include "terminal.h"
 
 #ifdef __APPLE__
 #include <sys/event.h>
@@ -193,7 +196,7 @@ gdk_threads_add_idle_full (G_PRIORITY_HIGH_IDLE,
 }
 
 void
-lterm_iteration ()
+lterm_iteration (void)
 {
   struct Iteration_Function_Request ifr_function;
   struct ConnectionTab *lterminal;

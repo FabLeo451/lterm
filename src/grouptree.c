@@ -26,6 +26,7 @@
 #include "connection_list.h"
 #include "grouptree.h"
 #include "main.h"
+#include "utils.h"
 
 extern struct Connection_List conn_list;
 
