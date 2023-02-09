@@ -27,6 +27,7 @@
 #include <openssl/opensslv.h>
 #include <openssl/md5.h>
 #include <sys/utsname.h>
+#include <sys/wait.h>
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
@@ -403,8 +404,11 @@ struct EncodingEntry enc_array[] =
     { "EUC-JP (Japanese)", "EUC-JP" }
   };
 
+static gboolean search_entry_focus_out_event_cb (GtkWidget *, GdkEvent *,
+                                                 gpointer);
+
 void
-ifr_init ()
+ifr_init (void)
 {
   int i;
 
@@ -2289,7 +2293,7 @@ load_recent_connections ()
 }
 
 int
-save_recent_connections ()
+save_recent_connections (void)
 {
   struct Connection conn;
   struct Connection *p_conn;
@@ -4186,7 +4190,7 @@ search_entry_focus_in_event_cb (GtkWidget *widget, GdkEvent *event, gpointer use
   return (TRUE);
 }
 
-gboolean
+static gboolean
 search_entry_focus_out_event_cb (GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
   
@@ -4228,7 +4232,7 @@ create_accelerators ()
 }
 
 void 
-refresh_search_completion ()
+refresh_search_completion (void)
 {
   GtkListStore *model;
   GtkTreeIter iter; 
@@ -5667,7 +5671,7 @@ update_all_profiles ()
     }
 }
 
-int
+void
 open_connection (char *connection)
 {
   int rc;

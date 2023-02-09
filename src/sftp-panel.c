@@ -68,7 +68,7 @@ GList *g_filetypes;
 char *transferStatusDesc[] = { "Ready", "In progress", "Paused", "Cancelled by user", "Cancelled for errors", "Completed", 0 };
 
 GtkWidget *transfer_window=NULL;
-GtkWidget *label_status;
+extern GtkWidget *label_status;
 GtkWidget *label_from;
 GtkWidget *label_to;
 GtkWidget *label_speed;
@@ -1638,7 +1638,7 @@ sftp_panel_order_invert ()
 }*/
 
 void
-refresh_panel_history ()
+refresh_panel_history (void)
 {
   struct Connection *c;
   struct Bookmark *b;

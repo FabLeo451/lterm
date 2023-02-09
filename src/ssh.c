@@ -34,6 +34,7 @@
 #include "ssh.h"
 #include "sftp-panel.h"
 #include "connection_list.h"
+#include "async.h"
 
 extern Globals globals;
 extern Prefs prefs;

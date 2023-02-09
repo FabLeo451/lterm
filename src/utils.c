@@ -34,6 +34,7 @@
 #include <sys/dir.h>
 #include <sys/stat.h>
 #include <sys/utsname.h>
+#include <ctype.h>x
 
 #ifndef __APPLE__
 #include <crypt.h>

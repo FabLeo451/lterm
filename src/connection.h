@@ -54,6 +54,12 @@ void connection_init_stuff ();
 void rebuild_tree_store ();
 GtkWidget *create_entry_control (char *label, GtkWidget *entry);
 void create_quick_launch_window (struct QuickLaunchWindow *p_qlv);
+int conn_update_last_user (char *cname, char *last_user);
+int choose_manage_connection (struct Connection *p_conn);
+int count_current_connections (void);
+int save_connections_to_file_xml (char *filename);
+
+void refresh_connection_tree_view (GtkTreeView *tree_view);
 
 #endif
 

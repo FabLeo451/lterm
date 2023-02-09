@@ -46,5 +46,10 @@ char *shortenString (char *original, int threshold, char *shortened);
 int file_exists (char *filename);
 char *readFile (char *filename);
 
+int list_get_nth (char *list, int n, char sep, char *elem);
+void lower (char *s);
+void get_system (char *sys_name);
+int list_count (char *list, char sep);
+
 #endif
 

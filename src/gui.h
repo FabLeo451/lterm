@@ -265,4 +265,18 @@ void sftp_download_files ();
 
 void sb_msg_push (char *);
 
+void refresh_search_completion (void);
+void connection_tab_add (struct ConnectionTab *connection_tab);
+void connection_tab_close (struct ConnectionTab *p_ct);
+void open_connection (char *connection);
+int save_recent_connections (void);
+
+void ifr_init (void);
+int ifr_get (struct Iteration_Function_Request *dest);
+
+struct Profile;
+void apply_profile_terminal (GtkWidget *terminal, struct Profile *p_profile);
+
+void start_gtk (int argc, char **argv);
+
 #endif

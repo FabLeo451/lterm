@@ -172,6 +172,7 @@ int sftp_queue_length ();
 int sftp_queue_count (int *nUp, int *nDown);
 STransferInfo *sftp_queue_nth (int n);
 int sftp_queue_add (int action, GSList *filelist, struct SSH_Info *p_ssh, char *local_directory);
+void refresh_panel_history (void);
 
 #endif
 

@@ -25,6 +25,8 @@
 #include "sftp-panel.h"
 #include "utils.h"
 #include "transfer_window.h"
+#include "async.h"
+#include "gui.h"
 
 extern GtkWidget *main_window;
 extern Globals globals;
