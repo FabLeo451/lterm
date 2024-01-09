@@ -1528,7 +1528,7 @@ add_update_connection (struct GroupNode *p_node, struct Connection *p_conn_model
   if (gtk_builder_add_from_file (builder, ui, &error) == 0)
     {
       msgbox_error ("Can't load user interface file:\n%s", error->message);
-      return;
+      return NULL;
     }
     
   log_debug ("Loaded %s\n", ui);
