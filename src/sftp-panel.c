@@ -1514,7 +1514,7 @@ run_dialog:
             ////////////////////////////////
             lockSSH (__func__, TRUE);
 
-            rc = sftp_utimes (p_ssh_current->ssh_node->sftp, file_abs_path, &newFileTime);
+            rc = sftp_utimes (p_ssh_current->ssh_node->sftp, file_abs_path, newFileTime);
 
             lockSSH (__func__, FALSE);
             ////////////////////////////////
