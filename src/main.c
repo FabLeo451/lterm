@@ -218,7 +218,7 @@ lterm_iteration (void)
           break;
 
         case ITERATION_REFRESH_TREE_VIEW:
-          refresh_connection_tree_view ((struct GtkTreeView *) ifr_function.user_data);
+          refresh_connection_tree_view ((GtkTreeView *) ifr_function.user_data);
           break;
 
         case ITERATION_REFRESH_SFTP_PANEL:
