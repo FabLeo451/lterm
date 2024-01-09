@@ -759,7 +759,7 @@ view_transfer_window ()
 
   // Scrolled window
   //GtkWindow *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-  GtkWindow *scrolled_window = GTK_WIDGET (gtk_builder_get_object (builder, "scrolled_window"));
+  GtkWindow *scrolled_window = GTK_WINDOW (gtk_builder_get_object (builder, "scrolled_window"));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_ETCHED_IN);
   //transferAdjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window));
