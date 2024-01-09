@@ -1373,7 +1373,7 @@ select_private_key_cb (GtkButton *button, gpointer user_data)
   
   if (result == GTK_RESPONSE_ACCEPT)
     {
-      gtk_entry_set_text (authWidgets.entry_private_key, gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(dialog)));
+      gtk_entry_set_text (GTK_ENTRY (authWidgets.entry_private_key), gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(dialog)));
     }
     
   gtk_widget_destroy (dialog);
@@ -1382,7 +1382,7 @@ select_private_key_cb (GtkButton *button, gpointer user_data)
 void
 clear_private_key_cb (GtkButton *button, gpointer user_data)
 {
-  gtk_entry_set_text (authWidgets.entry_private_key, "");
+  gtk_entry_set_text (GTK_ENTRY (authWidgets.entry_private_key), "");
 }
 
 void
