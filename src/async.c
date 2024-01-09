@@ -130,8 +130,8 @@ async_is_transferring ()
   return gIsTransferring;
 }
 
-int
-async_sftp_transfer (gpointer userdata)
+void *
+async_sftp_transfer (void *userdata)
 {
   int i, rc;
   int nUp, nDown;
